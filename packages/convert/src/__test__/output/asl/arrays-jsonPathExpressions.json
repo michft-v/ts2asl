@@ -1,0 +1,97 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign filterArray"
+    },
+    "Assign filterArray": {
+      "Type": "Pass",
+      "Result": {
+        "cats": {
+          "young": [
+            {
+              "age": 2,
+              "species": "cat"
+            },
+            {
+              "age": 4,
+              "species": "cat"
+            }
+          ],
+          "old": [
+            {
+              "age": 12,
+              "species": "cat"
+            },
+            {
+              "age": 14,
+              "species": "cat"
+            }
+          ]
+        },
+        "dogs": {
+          "young": [
+            {
+              "age": 1,
+              "species": "dog"
+            },
+            {
+              "age": 3,
+              "species": "dog"
+            }
+          ],
+          "old": [
+            {
+              "age": 11,
+              "species": "dog"
+            },
+            {
+              "age": 13,
+              "species": "dog"
+            }
+          ]
+        }
+      },
+      "ResultPath": "$.vars.filterArray",
+      "Comment": "source: filterArray = { cats: { young: [{ age: 2, spec ...",
+      "Next": "Assign ages"
+    },
+    "Assign ages": {
+      "Type": "Pass",
+      "InputPath": "$.vars.filterArray..age",
+      "ResultPath": "$.vars.ages",
+      "Comment": "source: ages = asl.jsonPathExpression(filterArray, \".. ...",
+      "Next": "Assign flattenedPets"
+    },
+    "Assign flattenedPets": {
+      "Type": "Pass",
+      "InputPath": "$.vars.filterArray[*][*][*]",
+      "ResultPath": "$.vars.flattenedPets",
+      "Comment": "source: flattenedPets = asl.jsonPathExpression(filterA ...",
+      "Next": "Assign slicedArr"
+    },
+    "Assign slicedArr": {
+      "Type": "Pass",
+      "InputPath": "$.vars.filterArray.cats.young[1:1]",
+      "ResultPath": "$.vars.slicedArr",
+      "Comment": "source: slicedArr = asl.jsonPathSlice(filterArray.cats ...",
+      "Next": "Return { ages, fl ..."
+    },
+    "Return { ages, fl ...": {
+      "Type": "Pass",
+      "Parameters": {
+        "ages.$": "$.vars.ages",
+        "flattenedPets.$": "$.vars.flattenedPets",
+        "slicedArr.$": "$.vars.slicedArr"
+      },
+      "End": true
+    }
+  }
+}

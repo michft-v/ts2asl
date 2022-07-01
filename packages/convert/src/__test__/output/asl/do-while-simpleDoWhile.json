@@ -1,0 +1,54 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign counter"
+    },
+    "Assign counter": {
+      "Type": "Pass",
+      "Result": "",
+      "ResultPath": "$.vars.counter",
+      "Comment": "source: counter = \"\"",
+      "Next": "Evaluate Format('{}a', $. ..."
+    },
+    "Evaluate Format('{}a', $. ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}a', $.vars.counter)"
+      },
+      "Next": "Assign counter_1"
+    },
+    "Assign counter_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.counter",
+      "Next": "Do While Condition"
+    },
+    "Do While Condition": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.counter",
+            "StringEquals": "aaaaa"
+          },
+          "Next": "Evaluate Format('{}a', $. ..."
+        }
+      ],
+      "Default": "Return counter"
+    },
+    "Return counter": {
+      "Type": "Pass",
+      "InputPath": "$.vars.counter",
+      "End": true
+    }
+  }
+}

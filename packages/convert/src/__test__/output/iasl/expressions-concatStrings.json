@@ -1,0 +1,34 @@
+{
+  "statements": [
+    {
+      "stateName": "Return",
+      "expression": {
+        "properties": {
+          "a": {
+            "value": "hello world ",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "b": {
+            "value": "abc",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "c": {
+            "value": "abc",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "d": {
+            "value": "n=42;",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

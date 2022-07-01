@@ -43,6 +43,11 @@ interface IInput {
 * [throwing errors](./examples/throw.md)
 * [input validation](./examples/input-validation.md)
 * [enclosed variables](./examples/closures.md)
+* [enum literals](./examples/enums.md)
+* [in keyword](./examples/in-keyword.md)
+* [conditional expression](./examples/conditional-expression.md)
+* [optional property chaining](./examples/optional-property-chain.md)
+* [null coalescing](./examples/null-coalescing.md)
 * [if statements](./examples/if.md)
 * [for ... of statements](./examples/for-each.md)
 * [do while statements](./examples/do-while.md)
@@ -55,6 +60,7 @@ interface IInput {
 * console.log
 * [evaluation of literal expressions](./examples/expressions.md)
 * [string templates](./examples/string-templates.md)
+* [state machines invoking state machines](./examples/nested-stepfunctions.md)
 
 ## ASL TypeScript library runtime support
 `ts2asl` is integrated with the `@ts2asl/asl-lib` module. This module can be used to integrate ASL features such as states and JsonPath with native TypeScript.
@@ -90,9 +96,25 @@ new ts2asl.TypescriptStateMachine(this, "TypescriptStateMachine", {
 });
 ```
 
+## Using the CLI
+`ts2asl` also features a CLI that can be used to transpile TypeScript code to ASL.
+
+use the following example to get started:
+``` bash
+echo "import * as asl from '@ts2asl/asl-lib'
+
+export const main = asl.deploy.asStateMachine(async (input: unknown) => {
+  console.log(input);
+  return 'hello world'
+});" > test.ts
+
+npx ts2asl compile test.ts
+```
+
 ## Useful patterns & examples
-- [example project](./cdk-example/) containing a [simple program](./cdk-example/src/program.ts), [CDK for deployment](./cdk-example/lib/cdk-example-stack.ts) and [Jest for testing](./cdk-example/test/program.test.ts)
-- Waiting for completion of SDK state: [organizations.createAccount](./examples/switch.md#create-aws-account).
+- [example project](./cdk-v2-example/) containing a [simple program](./cdk-v2-example/src/program.ts), [CDK for deployment](./cdk-v2-example/lib/cdk-v2-example-stack.ts) and [Jest for testing](./cdk-v2-example/test/cdk-v2-example.test.ts)
+- waiting for completion of SDK state: [organizations.createAccount](./examples/switch.md#create-aws-account).
+- pagination over list: [iam.listUsers](./examples/pagination.md#list-users).
 <!-- 
 - Using sdk integrations to page over data in DynamoDB
 - Using a Lambda to page over data (in memory)

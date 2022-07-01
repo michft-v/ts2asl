@@ -1,0 +1,43 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Throw RetryableError",
+          "States": {
+            "Throw RetryableError": {
+              "Type": "Fail",
+              "Error": "RetryableError",
+              "Cause": "retry me",
+              "Comment": "source: throw new RetryableError(\"retry me\")"
+            }
+          }
+        }
+      ],
+      "ResultPath": null,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "RetryableError"
+          ],
+          "IntervalSeconds": 3,
+          "MaxAttempts": 2,
+          "BackoffRate": 1.5
+        }
+      ],
+      "End": true
+    }
+  }
+}

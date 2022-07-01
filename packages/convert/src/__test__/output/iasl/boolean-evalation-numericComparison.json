@@ -1,0 +1,162 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign condition",
+      "name": {
+        "identifier": "condition",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "source": "condition = 42",
+      "expression": {
+        "value": 42,
+        "type": "numeric",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign items",
+      "name": {
+        "identifier": "items",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "items = [2, 42, 3]",
+      "expression": {
+        "elements": [
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 42,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign listWithReturned",
+      "name": {
+        "identifier": "listWithReturned",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "listWithReturned = items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n    return {};\n  })",
+      "expression": {
+        "stateName": "items.map => item",
+        "items": {
+          "identifier": "items",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "iterator": {
+          "inputArgumentName": {
+            "identifier": "item",
+            "type": "object",
+            "_syntaxKind": "identifier"
+          },
+          "statements": [
+            {
+              "stateName": "If (item === condition)",
+              "condition": {
+                "lhs": {
+                  "identifier": "item",
+                  "type": "numeric",
+                  "_syntaxKind": "identifier"
+                },
+                "operator": "eq",
+                "rhs": {
+                  "identifier": "condition",
+                  "type": "numeric",
+                  "_syntaxKind": "identifier"
+                },
+                "_syntaxKind": "binary-expression"
+              },
+              "then": {
+                "statements": [
+                  {
+                    "stateName": "Return { returned: item }",
+                    "expression": {
+                      "properties": {
+                        "returned": {
+                          "identifier": "item",
+                          "type": "numeric",
+                          "_syntaxKind": "identifier"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    },
+                    "_syntaxKind": "return"
+                  }
+                ],
+                "_syntaxKind": "function"
+              },
+              "source": "if (item === condition) {\n      return { returned: item };\n    }",
+              "_syntaxKind": "if"
+            },
+            {
+              "stateName": "Return {}",
+              "expression": {
+                "properties": {},
+                "_syntaxKind": "literal-object"
+              },
+              "_syntaxKind": "return"
+            }
+          ],
+          "_syntaxKind": "function"
+        },
+        "source": "items.map(item => {\n    if (item === condition) {\n      return { returned: item };\n    }\n    return {};\n  })",
+        "_syntaxKind": "asl-map-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign item",
+      "name": {
+        "identifier": "item",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "item = listWithReturned.filter(x => x.returned)",
+      "expression": {
+        "identifier": "listWithReturned",
+        "type": "object",
+        "_syntaxKind": "identifier",
+        "filterExpression": {
+          "argument": {
+            "identifier": "x",
+            "type": "unknown",
+            "_syntaxKind": "identifier"
+          },
+          "expression": {
+            "identifier": "x.returned",
+            "type": "numeric",
+            "_syntaxKind": "identifier"
+          }
+        }
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return item",
+      "expression": {
+        "identifier": "item",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

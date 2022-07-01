@@ -1,0 +1,199 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign createAccount"
+    },
+    "Assign createAccount": {
+      "Type": "Task",
+      "ResultPath": "$.vars.createAccount",
+      "Resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
+      "Parameters": {
+        "AccountName": "test",
+        "Email": "something@email.com"
+      },
+      "Next": "Assign creationStatus"
+    },
+    "Assign creationStatus": {
+      "Type": "Pass",
+      "InputPath": "$._undefined",
+      "ResultPath": "$.vars.creationStatus",
+      "Comment": "source: creationStatus: string | undefined = undefined",
+      "Next": "Assign describeResult"
+    },
+    "Assign describeResult": {
+      "Type": "Task",
+      "ResultPath": "$.vars.describeResult",
+      "Resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
+      "Parameters": {
+        "CreateAccountRequestId.$": "$.vars.createAccount.CreateAccountStatus.Id"
+      },
+      "Next": "Eval Conditional"
+    },
+    "Eval Conditional": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.describeResult.CreateAccountStatus",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.describeResult.CreateAccountStatus",
+                "IsNull": true
+              }
+            ]
+          },
+          "Next": "Conditional True"
+        }
+      ],
+      "Default": "Conditional False"
+    },
+    "Conditional True": {
+      "Type": "Pass",
+      "InputPath": "$.vars.describeResult.CreateAccountStatus.State",
+      "ResultPath": "$.tmp.var",
+      "Next": "Assign creationStatus_1"
+    },
+    "Conditional False": {
+      "Type": "Pass",
+      "InputPath": "$._null",
+      "ResultPath": "$.tmp.var",
+      "Next": "Assign creationStatus_1"
+    },
+    "Assign creationStatus_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "ResultPath": "$.vars.creationStatus",
+      "Next": "Switch (creationStatus)"
+    },
+    "Switch (creationStatus)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.creationStatus",
+          "StringEquals": "FAILED",
+          "Next": "Throw Error"
+        },
+        {
+          "Variable": "$.vars.creationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "Wait"
+        }
+      ],
+      "Comment": "source: switch (creationStatus) { case \"FAILED\": throw ...",
+      "Default": "Do While Condition"
+    },
+    "Throw Error": {
+      "Type": "Fail",
+      "Error": "Error",
+      "Cause": "account creation failed",
+      "Comment": "source: throw new Error(\"account creation failed\");"
+    },
+    "Wait": {
+      "Type": "Wait",
+      "Seconds": 1,
+      "Next": "Do While Condition"
+    },
+    "Do While Condition": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.creationStatus",
+            "StringEquals": "SUCCEEDED"
+          },
+          "Next": "Assign describeResult"
+        }
+      ],
+      "Default": "Eval Conditional_1"
+    },
+    "Eval Conditional_1": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.createAccount.CreateAccountStatus",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.createAccount.CreateAccountStatus",
+                "IsNull": true
+              }
+            ]
+          },
+          "Next": "Conditional True_1"
+        }
+      ],
+      "Default": "Conditional False_1"
+    },
+    "Conditional True_1": {
+      "Type": "Pass",
+      "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+      "ResultPath": "$.tmp.var",
+      "Next": "Log (createAccount.Create ..."
+    },
+    "Conditional False_1": {
+      "Type": "Pass",
+      "InputPath": "$._null",
+      "ResultPath": "$.tmp.var",
+      "Next": "Log (createAccount.Create ..."
+    },
+    "Log (createAccount.Create ...": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "ResultPath": null,
+      "Comment": "source: console.log(createAccount.CreateAccountStatus? ...",
+      "Next": "Eval Conditional_2"
+    },
+    "Eval Conditional_2": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Or": [
+              {
+                "Variable": "$.vars.createAccount.CreateAccountStatus",
+                "IsPresent": false
+              },
+              {
+                "Variable": "$.vars.createAccount.CreateAccountStatus",
+                "IsNull": true
+              }
+            ]
+          },
+          "Next": "Conditional True_2"
+        }
+      ],
+      "Default": "Conditional False_2"
+    },
+    "Conditional True_2": {
+      "Type": "Pass",
+      "InputPath": "$.vars.createAccount.CreateAccountStatus.AccountId",
+      "ResultPath": "$.tmp.var",
+      "Next": "Return createAccount.Crea ..."
+    },
+    "Conditional False_2": {
+      "Type": "Pass",
+      "InputPath": "$._null",
+      "ResultPath": "$.tmp.var",
+      "Next": "Return createAccount.Crea ..."
+    },
+    "Return createAccount.Crea ...": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.var",
+      "End": true
+    }
+  }
+}

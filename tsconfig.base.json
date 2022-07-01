@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@ts2asl/asl-lib": [
+        "packages/asl-lib"
+      ],
+      "@ts2asl/convert": [
+        "packages/convert"
+      ],
+      "@ts2asl/cdk-typescript-statemachine": [
+        "packages/cdk-v2"
+      ],
+      "cdk-tests": [
+        "test/cdk-tests"
+      ]
+    }
+  }
+}

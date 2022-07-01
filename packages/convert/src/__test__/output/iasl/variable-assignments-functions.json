@@ -1,0 +1,132 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign str",
+      "name": {
+        "identifier": "str",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "str = asl.states.format(\"hello {}\", \"world\")",
+      "expression": {
+        "arguments": [
+          {
+            "value": "hello {}",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "world",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "type": "string",
+        "function": "asl.states.format",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign num",
+      "name": {
+        "identifier": "num",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "num = asl.states.format(\"answer is {}\", 42)",
+      "expression": {
+        "arguments": [
+          {
+            "value": "answer is {}",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 42,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "type": "string",
+        "function": "asl.states.format",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign combined",
+      "name": {
+        "identifier": "combined",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "combined = asl.states.format(\"1: {}\\n 2: {}\", str, num)",
+      "expression": {
+        "arguments": [
+          {
+            "value": "1: {}\n 2: {}",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "identifier": "str",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          {
+            "identifier": "num",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          }
+        ],
+        "type": "string",
+        "function": "asl.states.format",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign arr",
+      "name": {
+        "identifier": "arr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "arr = asl.states.array(str, num, combined)",
+      "expression": {
+        "arguments": [
+          {
+            "identifier": "str",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          {
+            "identifier": "num",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          {
+            "identifier": "combined",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          }
+        ],
+        "type": "object",
+        "function": "asl.states.array",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return arr",
+      "expression": {
+        "identifier": "arr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

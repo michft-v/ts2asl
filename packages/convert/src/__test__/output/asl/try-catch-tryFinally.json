@@ -1,0 +1,38 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Parallel"
+    },
+    "Parallel": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Return \"succeeded\"",
+          "States": {
+            "Return \"succeeded\"": {
+              "Type": "Pass",
+              "Result": "succeeded",
+              "End": true
+            }
+          }
+        }
+      ],
+      "ResultPath": null,
+      "Comment": "source: Promise.all([() => \"succeeded\"])",
+      "Next": "Return \"finally\""
+    },
+    "Return \"finally\"": {
+      "Type": "Pass",
+      "Result": "finally",
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign source"
+    },
+    "Assign source": {
+      "Type": "Pass",
+      "Result": [
+        {
+          "obj": {
+            "num": 23,
+            "str": "str"
+          }
+        }
+      ],
+      "ResultPath": "$.vars.source",
+      "Comment": "source: source = [{ obj: { num: 23, str: \"str\" } }]",
+      "Next": "Assign num"
+    },
+    "Assign num": {
+      "Type": "Pass",
+      "InputPath": "$.vars.source..obj.num",
+      "ResultPath": "$.vars.num",
+      "Comment": "source: num = source.map(x => x.obj.num)",
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "InputPath": "$.vars.source..obj.str",
+      "ResultPath": "$.vars.str",
+      "Comment": "source: str = source.map(x => x.obj.str)",
+      "Next": "Return { num: num[0], ..."
+    },
+    "Return { num: num[0], ...": {
+      "Type": "Pass",
+      "Parameters": {
+        "num.$": "$.vars.num[0]",
+        "str.$": "$.vars.str[0]"
+      },
+      "End": true
+    }
+  }
+}

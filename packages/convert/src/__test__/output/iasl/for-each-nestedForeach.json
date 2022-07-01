@@ -1,0 +1,252 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign numbers",
+      "name": {
+        "identifier": "numbers",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "numbers = [0, 1, 2, 3]",
+      "expression": {
+        "elements": [
+          {
+            "value": 0,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign letters",
+      "name": {
+        "identifier": "letters",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "letters = [\"a\", \"b\", \"c\", \"d\"]",
+      "expression": {
+        "elements": [
+          {
+            "value": "a",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "b",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "c",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "d",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign global",
+      "name": {
+        "identifier": "global",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "global = \"prefix\"",
+      "expression": {
+        "value": "prefix",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign outer",
+      "name": {
+        "identifier": "outer",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "outer = { middle: { inner: 3 } }",
+      "expression": {
+        "properties": {
+          "middle": {
+            "properties": {
+              "inner": {
+                "value": 3,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result = ``",
+      "expression": {
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "For number Of numbers",
+      "items": {
+        "identifier": "numbers",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "number",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "For letter Of letters",
+            "items": {
+              "identifier": "letters",
+              "type": "object",
+              "_syntaxKind": "identifier"
+            },
+            "iterator": {
+              "inputArgumentName": {
+                "identifier": "letter",
+                "type": "object",
+                "_syntaxKind": "identifier"
+              },
+              "statements": [
+                {
+                  "stateName": "Assign combined",
+                  "name": {
+                    "identifier": "combined",
+                    "type": "object",
+                    "_syntaxKind": "identifier"
+                  },
+                  "source": "combined = { number, letter, global, inner: outer.middle.inner }",
+                  "expression": {
+                    "properties": {
+                      "number": {
+                        "identifier": "number",
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
+                      },
+                      "letter": {
+                        "identifier": "letter",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      "global": {
+                        "identifier": "global",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      "inner": {
+                        "identifier": "outer.middle.inner",
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  },
+                  "_syntaxKind": "variable-assignment"
+                },
+                {
+                  "name": {
+                    "identifier": "result",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "expression": {
+                    "arguments": [
+                      {
+                        "value": "{}, {}",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      {
+                        "identifier": "result",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "identifier": "combined",
+                            "type": "object",
+                            "_syntaxKind": "identifier"
+                          }
+                        ],
+                        "type": "string",
+                        "function": "asl.states.jsonToString",
+                        "_syntaxKind": "asl-intrinsic-function"
+                      }
+                    ],
+                    "type": "unknown",
+                    "function": "asl.states.format",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "stateName": "Assign result",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "for (const letter of letters) {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      result = `${result}, ${asl.states.jsonToString(combined)}`;\n    }",
+            "_syntaxKind": "for-each"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "for (const number of numbers) {\n    for (const letter of letters) {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      result = `${result}, ${asl.states.jsonToString(combined)}`;\n    };\n  }",
+      "_syntaxKind": "for-each"
+    },
+    {
+      "stateName": "Return result",
+      "expression": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

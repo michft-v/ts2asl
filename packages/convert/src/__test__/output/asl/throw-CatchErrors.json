@@ -1,0 +1,82 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Parallel"
+    },
+    "Evaluate Format('cause {} ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('cause {}', $.vars.error.Cause)"
+      },
+      "Next": "Log (`cause ${error.Cause}`)"
+    },
+    "Log (`cause ${error.Cause}`)": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": null,
+      "Comment": "source: console.log(`cause ${error.Cause}`)",
+      "Next": "Evaluate Format('message ..."
+    },
+    "Evaluate Format('message ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('message {}', $.vars.error.Error)"
+      },
+      "Next": "Log (`message ${error.Err ..."
+    },
+    "Log (`message ${error.Err ...": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": null,
+      "Comment": "source: console.log(`message ${error.Error}`)",
+      "End": true
+    },
+    "Parallel": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Throw UnexpectedError",
+          "States": {
+            "Throw UnexpectedError": {
+              "Type": "Fail",
+              "Error": "UnexpectedError",
+              "Cause": "bad luck!",
+              "Comment": "source: throw new UnexpectedError(\"bad luck!\")"
+            }
+          }
+        }
+      ],
+      "ResultPath": null,
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "UnexpectedError"
+          ],
+          "ResultPath": "$.vars.error",
+          "Next": "Evaluate Format('cause {} ..."
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "RetryableError"
+          ],
+          "IntervalSeconds": 3,
+          "MaxAttempts": 2,
+          "BackoffRate": 1.5
+        }
+      ],
+      "End": true
+    }
+  }
+}

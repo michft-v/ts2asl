@@ -1,0 +1,72 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign counter"
+    },
+    "Assign counter": {
+      "Type": "Pass",
+      "Result": "",
+      "ResultPath": "$.vars.counter",
+      "Comment": "source: counter = \"\"",
+      "Next": "Evaluate Format('{}a', $. ..."
+    },
+    "Evaluate Format('{}a', $. ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}a', $.vars.counter)"
+      },
+      "Next": "Assign counter_1"
+    },
+    "Assign counter_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.counter",
+      "Next": "If (counter == \"aa\")"
+    },
+    "If (counter == \"aa\")": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.counter",
+          "StringEquals": "aa",
+          "Next": "Return counter"
+        }
+      ],
+      "Comment": "source: if (counter == \"aa\") { return counter; //retur ...",
+      "Default": "Do While Condition"
+    },
+    "Return counter": {
+      "Type": "Pass",
+      "InputPath": "$.vars.counter",
+      "End": true
+    },
+    "Do While Condition": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.counter",
+            "StringEquals": "aaaaa"
+          },
+          "Next": "Evaluate Format('{}a', $. ..."
+        }
+      ],
+      "Default": "Throw Error"
+    },
+    "Throw Error": {
+      "Type": "Fail",
+      "Error": "Error",
+      "Cause": "this should not happen",
+      "Comment": "source: throw new Error(\"this should not happen\");"
+    }
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign arr",
+      "name": {
+        "identifier": "arr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "arr = [1, 2, 3, 4, 5]",
+      "expression": {
+        "elements": [
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 4,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 5,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign two",
+      "name": {
+        "identifier": "two",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "source": "two = arr[1]",
+      "expression": {
+        "identifier": "",
+        "indexExpression": {
+          "value": 1,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "lhs": {
+          "identifier": "arr",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "",
+        "indexExpression": {
+          "value": 1,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "lhs": {
+          "identifier": "arr",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "identifier": "",
+        "indexExpression": {
+          "value": 3,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "lhs": {
+          "identifier": "arr",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "stateName": "Assign arr[1]",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "",
+        "indexExpression": {
+          "value": 3,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "lhs": {
+          "identifier": "arr",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "identifier": "two",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "stateName": "Assign arr[3]",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return arr",
+      "expression": {
+        "identifier": "arr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

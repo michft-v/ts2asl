@@ -1,0 +1,51 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign obj",
+      "name": {
+        "identifier": "obj",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "obj = { name: \"jim\" }",
+      "expression": {
+        "properties": {
+          "name": {
+            "value": "jim",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return obj?.name",
+      "expression": {
+        "condition": {
+          "rhs": {
+            "identifier": "obj",
+            "type": "object",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "identifier": "obj.name",
+          "type": "unknown",
+          "_syntaxKind": "identifier"
+        },
+        "whenFalse": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

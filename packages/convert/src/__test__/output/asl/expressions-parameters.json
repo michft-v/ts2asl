@@ -1,0 +1,24 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Return"
+    },
+    "Return": {
+      "Type": "Pass",
+      "Result": {
+        "a": "[!parameter[bucketName]]",
+        "b": "s3:::arn:[!parameter[bucketName]]",
+        "c": "value -> [!parameter[bucketName]] <- value"
+      },
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "statements": [
+    {
+      "stateName": "Return { a: true, ...",
+      "expression": {
+        "properties": {
+          "a": {
+            "value": true,
+            "type": "boolean",
+            "_syntaxKind": "literal"
+          },
+          "b": {
+            "value": false,
+            "type": "boolean",
+            "_syntaxKind": "literal"
+          },
+          "c": {
+            "value": true,
+            "type": "boolean",
+            "_syntaxKind": "literal"
+          },
+          "d": {
+            "value": false,
+            "type": "boolean",
+            "_syntaxKind": "literal"
+          },
+          "e": {
+            "value": false,
+            "type": "boolean",
+            "_syntaxKind": "literal"
+          },
+          "f": {
+            "value": true,
+            "type": "boolean",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

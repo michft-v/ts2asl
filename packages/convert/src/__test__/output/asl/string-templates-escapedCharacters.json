@@ -1,0 +1,33 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign variable"
+    },
+    "Assign variable": {
+      "Type": "Pass",
+      "Result": "some var",
+      "ResultPath": "$.vars.variable",
+      "Comment": "source: variable = \"some var\"",
+      "Next": "Return { hello: `hell ..."
+    },
+    "Return { hello: `hell ...": {
+      "Type": "Pass",
+      "Parameters": {
+        "hello.$": "States.Format('hello {}', $.vars.variable)",
+        "singleQuote.$": "States.Format('hello \\' + {}', $.vars.variable)",
+        "curlyBrace.$": "States.Format('hello \\}\\{\\} + {}', $.vars.variable)",
+        "backSlash.$": "States.Format('hello \\\\ + {}', $.vars.variable)",
+        "emoji.$": "States.Format('hello 🙂 + {}', $.vars.variable)"
+      },
+      "End": true
+    }
+  }
+}

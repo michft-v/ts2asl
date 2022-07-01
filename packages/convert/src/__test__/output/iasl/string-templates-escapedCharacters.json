@@ -1,0 +1,114 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign variable",
+      "name": {
+        "identifier": "variable",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "variable = \"some var\"",
+      "expression": {
+        "value": "some var",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return { hello: `hell ...",
+      "expression": {
+        "properties": {
+          "hello": {
+            "arguments": [
+              {
+                "value": "hello {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "variable",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "type": "unknown",
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "singleQuote": {
+            "arguments": [
+              {
+                "value": "hello \\' + {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "variable",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "type": "unknown",
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "curlyBrace": {
+            "arguments": [
+              {
+                "value": "hello \\}\\{\\} + {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "variable",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "type": "unknown",
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "backSlash": {
+            "arguments": [
+              {
+                "value": "hello \\\\ + {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "variable",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "type": "unknown",
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "emoji": {
+            "arguments": [
+              {
+                "value": "hello 🙂 + {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "variable",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "type": "unknown",
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

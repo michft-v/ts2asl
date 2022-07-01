@@ -1,0 +1,62 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign x",
+      "name": {
+        "identifier": "x",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "source": "x = ExampleEnum.A",
+      "expression": {
+        "value": 0,
+        "type": "numeric",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (x === ExampleEnum.A)",
+      "condition": {
+        "lhs": {
+          "identifier": "x",
+          "type": "numeric",
+          "_syntaxKind": "identifier"
+        },
+        "operator": "eq",
+        "rhs": {
+          "value": 0,
+          "type": "numeric",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Return \"success\"",
+            "expression": {
+              "value": "success",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "return"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (x === ExampleEnum.A) {\n    return \"success\"\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "Return \"fail\"",
+      "expression": {
+        "value": "fail",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

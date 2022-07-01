@@ -1,0 +1,28 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign _undefined",
+      "name": {
+        "identifier": "_undefined",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "_undefined = undefined",
+      "expression": {
+        "type": "null",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return \"ok\"",
+      "expression": {
+        "value": "ok",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

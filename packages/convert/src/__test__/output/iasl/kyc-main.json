@@ -1,0 +1,261 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result = await Promise.all([\n    performIdentifyCheck(),\n    Promise.resolve({ agencyChecked: true }),\n  ])",
+      "expression": {
+        "branches": [
+          {
+            "statements": [
+              {
+                "stateName": "Assign",
+                "name": {
+                  "identifier": "return_var",
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
+                },
+                "expression": {
+                  "stateName": "performIdentifyCheck()",
+                  "resource": "[!lambda[performIdentifyCheck]arn]",
+                  "retry": [
+                    {
+                      "errorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "intervalSeconds": 2,
+                      "maxAttempts": 6,
+                      "backoffRate": 2
+                    }
+                  ],
+                  "source": "performIdentifyCheck()",
+                  "_syntaxKind": "asl-task-state"
+                },
+                "_syntaxKind": "variable-assignment"
+              },
+              {
+                "stateName": "Return",
+                "expression": {
+                  "identifier": "return_var",
+                  "type": "unknown",
+                  "_syntaxKind": "identifier"
+                },
+                "_syntaxKind": "return"
+              }
+            ],
+            "_syntaxKind": "function"
+          },
+          {
+            "statements": [
+              {
+                "stateName": "Return { agencyChecked: t ...",
+                "expression": {
+                  "properties": {
+                    "agencyChecked": {
+                      "value": true,
+                      "type": "boolean",
+                      "_syntaxKind": "literal"
+                    }
+                  },
+                  "_syntaxKind": "literal-object"
+                },
+                "_syntaxKind": "return"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        ],
+        "source": "Promise.all([\n    performIdentifyCheck(),\n    Promise.resolve({ agencyChecked: true }),\n  ])",
+        "_syntaxKind": "asl-parallel-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "PutEvents",
+      "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+      "parameters": {
+        "properties": {
+          "Entries": {
+            "elements": [
+              {
+                "properties": {
+                  "Detail": {
+                    "arguments": [
+                      {
+                        "identifier": "result",
+                        "type": "object",
+                        "_syntaxKind": "identifier"
+                      }
+                    ],
+                    "type": "string",
+                    "function": "asl.states.jsonToString",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "DetailType": {
+                    "value": "Identity check completed",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "EventBusName": {
+                    "value": "eventbusname",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "Source": {
+                    "value": "com.aws.kyc",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              }
+            ],
+            "_syntaxKind": "literal-array"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "asl-task-state"
+    },
+    {
+      "stateName": "Assign checksPassed",
+      "name": {
+        "identifier": "checksPassed",
+        "type": "boolean",
+        "_syntaxKind": "identifier"
+      },
+      "source": "checksPassed = true",
+      "expression": {
+        "value": true,
+        "type": "boolean",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (checksPassed)",
+      "condition": {
+        "rhs": {
+          "identifier": "checksPassed",
+          "type": "boolean",
+          "_syntaxKind": "identifier"
+        },
+        "operator": "is-truthy",
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "PutEvents",
+            "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+            "parameters": {
+              "properties": {
+                "Entries": {
+                  "elements": [
+                    {
+                      "properties": {
+                        "Detail": {
+                          "arguments": [
+                            {
+                              "identifier": "result",
+                              "type": "object",
+                              "_syntaxKind": "identifier"
+                            }
+                          ],
+                          "type": "string",
+                          "function": "asl.states.jsonToString",
+                          "_syntaxKind": "asl-intrinsic-function"
+                        },
+                        "DetailType": {
+                          "value": "AccountApproved",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        },
+                        "EventBusName": {
+                          "value": "eventbusname",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        },
+                        "Source": {
+                          "value": "com.aws.kyc",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    }
+                  ],
+                  "_syntaxKind": "literal-array"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            "_syntaxKind": "asl-task-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "else": {
+        "statements": [
+          {
+            "stateName": "PutEvents",
+            "resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+            "parameters": {
+              "properties": {
+                "Entries": {
+                  "elements": [
+                    {
+                      "properties": {
+                        "Detail": {
+                          "arguments": [
+                            {
+                              "identifier": "result",
+                              "type": "object",
+                              "_syntaxKind": "identifier"
+                            }
+                          ],
+                          "type": "string",
+                          "function": "asl.states.jsonToString",
+                          "_syntaxKind": "asl-intrinsic-function"
+                        },
+                        "DetailType": {
+                          "value": "AccountDeclined",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        },
+                        "EventBusName": {
+                          "value": "eventbusname",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        },
+                        "Source": {
+                          "value": "com.aws.kyc",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    }
+                  ],
+                  "_syntaxKind": "literal-array"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            "_syntaxKind": "asl-task-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (checksPassed) {\n    //no-op update risk profile\n    await asl.sdkEventBridgePutEvents({\n      parameters: {\n        Entries: [\n          {\n            Detail: asl.states.jsonToString(result),\n            DetailType: \"AccountApproved\",\n            EventBusName: \"eventbusname\",\n            Source: \"com.aws.kyc\"\n          }\n        ]\n      }\n    });\n  } else {\n    await asl.sdkEventBridgePutEvents({\n      parameters: {\n        Entries: [\n          {\n            Detail: asl.states.jsonToString(result),\n            DetailType: \"AccountDeclined\",\n            EventBusName: \"eventbusname\",\n            Source: \"com.aws.kyc\"\n          }\n        ]\n      }\n    });\n  }",
+      "_syntaxKind": "if"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

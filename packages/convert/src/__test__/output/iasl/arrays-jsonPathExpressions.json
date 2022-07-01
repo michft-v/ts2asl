@@ -1,0 +1,245 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign filterArray",
+      "name": {
+        "identifier": "filterArray",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "filterArray = {\n    cats: {\n      young: [{ age: 2, species: \"cat\" }, { age: 4, species: \"cat\" }],\n      old: [{ age: 12, species: \"cat\" }, { age: 14, species: \"cat\" }],\n    },\n    dogs: {\n      young: [{ age: 1, species: \"dog\" }, { age: 3, species: \"dog\" }],\n      old: [{ age: 11, species: \"dog\" }, { age: 13, species: \"dog\" }]\n    }\n  }",
+      "expression": {
+        "properties": {
+          "cats": {
+            "properties": {
+              "young": {
+                "elements": [
+                  {
+                    "properties": {
+                      "age": {
+                        "value": 2,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "species": {
+                        "value": "cat",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  },
+                  {
+                    "properties": {
+                      "age": {
+                        "value": 4,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "species": {
+                        "value": "cat",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  }
+                ],
+                "_syntaxKind": "literal-array"
+              },
+              "old": {
+                "elements": [
+                  {
+                    "properties": {
+                      "age": {
+                        "value": 12,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "species": {
+                        "value": "cat",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  },
+                  {
+                    "properties": {
+                      "age": {
+                        "value": 14,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "species": {
+                        "value": "cat",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  }
+                ],
+                "_syntaxKind": "literal-array"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          },
+          "dogs": {
+            "properties": {
+              "young": {
+                "elements": [
+                  {
+                    "properties": {
+                      "age": {
+                        "value": 1,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "species": {
+                        "value": "dog",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  },
+                  {
+                    "properties": {
+                      "age": {
+                        "value": 3,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "species": {
+                        "value": "dog",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  }
+                ],
+                "_syntaxKind": "literal-array"
+              },
+              "old": {
+                "elements": [
+                  {
+                    "properties": {
+                      "age": {
+                        "value": 11,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "species": {
+                        "value": "dog",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  },
+                  {
+                    "properties": {
+                      "age": {
+                        "value": 13,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "species": {
+                        "value": "dog",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  }
+                ],
+                "_syntaxKind": "literal-array"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign ages",
+      "name": {
+        "identifier": "ages",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "ages = asl.jsonPathExpression(filterArray, \"..age\")",
+      "expression": {
+        "identifier": "filterArray",
+        "type": "object",
+        "_syntaxKind": "identifier",
+        "jsonPathExpression": "..age"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign flattenedPets",
+      "name": {
+        "identifier": "flattenedPets",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "flattenedPets = asl.jsonPathExpression(filterArray, \"[*][*][*]\")",
+      "expression": {
+        "identifier": "filterArray",
+        "type": "object",
+        "_syntaxKind": "identifier",
+        "jsonPathExpression": "[*][*][*]"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign slicedArr",
+      "name": {
+        "identifier": "slicedArr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "slicedArr = asl.jsonPathSlice(filterArray.cats.young, 1, 1)",
+      "expression": {
+        "identifier": "filterArray.cats.young",
+        "type": "object",
+        "_syntaxKind": "identifier",
+        "sliceExpression": {
+          "start": 1,
+          "end": 1
+        }
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return { ages, fl ...",
+      "expression": {
+        "properties": {
+          "ages": {
+            "identifier": "ages",
+            "type": "unknown",
+            "_syntaxKind": "identifier"
+          },
+          "flattenedPets": {
+            "identifier": "flattenedPets",
+            "type": "unknown",
+            "_syntaxKind": "identifier"
+          },
+          "slicedArr": {
+            "identifier": "slicedArr",
+            "type": "object",
+            "_syntaxKind": "identifier"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

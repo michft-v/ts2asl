@@ -1,0 +1,40 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result",
+      "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
+      "Parameters": {
+        "TableName": "[!parameter[tableName]]",
+        "IndexName": "GSI1",
+        "KeyConditionExpression": "#pk = :val",
+        "ExpressionAttributeNames": {
+          "#pk": "gsi1pk"
+        },
+        "ExpressionAttributeValues": {
+          ":val": {
+            "S": "test"
+          }
+        },
+        "Select": "COUNT"
+      },
+      "Next": "Return result.Count"
+    },
+    "Return result.Count": {
+      "Type": "Pass",
+      "InputPath": "$.vars.result.Count",
+      "End": true
+    }
+  }
+}

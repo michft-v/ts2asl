@@ -1,0 +1,73 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "Result": "",
+      "ResultPath": "$.vars.result",
+      "Comment": "source: result = \"\"",
+      "Next": "Assign result_1"
+    },
+    "Assign result_1": {
+      "Type": "Pass",
+      "Result": "succeeded",
+      "ResultPath": "$.vars.result",
+      "Next": "Fail State Wrapper"
+    },
+    "Fail State Wrapper": {
+      "Type": "Parallel",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.vars.err",
+          "Next": "Evaluate Format('failed { ..."
+        }
+      ],
+      "End": true,
+      "Branches": [
+        {
+          "StartAt": "Throw Test Error",
+          "States": {
+            "Throw Test Error": {
+              "Type": "Fail",
+              "Error": "Test Error",
+              "Cause": "Failed on purpose",
+              "Comment": "source: throw asl.runtime.createError(\"Test Error\", \"F ..."
+            }
+          }
+        }
+      ]
+    },
+    "Evaluate Format('failed { ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('failed {} ({})', $.vars.err.Error, $.vars.err.Cause)"
+      },
+      "Next": "Assign result_2"
+    },
+    "Assign result_2": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
+      "Next": "Return result"
+    },
+    "Return result": {
+      "Type": "Pass",
+      "InputPath": "$.vars.result",
+      "End": true
+    }
+  }
+}

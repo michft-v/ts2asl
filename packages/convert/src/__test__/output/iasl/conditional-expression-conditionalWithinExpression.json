@@ -1,0 +1,68 @@
+{
+  "inputArgumentName": {
+    "identifier": "args",
+    "type": "object",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "Assign obj",
+      "name": {
+        "identifier": "obj",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "obj = { name: \"jim\" }",
+      "expression": {
+        "properties": {
+          "name": {
+            "value": "jim",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return \"hello\" + obj.name ...",
+      "expression": {
+        "condition": {
+          "rhs": {
+            "arguments": [
+              {
+                "value": "hello{}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "obj.name",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "type": "unknown",
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "identifier": "obj.name",
+          "type": "string",
+          "_syntaxKind": "identifier"
+        },
+        "whenFalse": {
+          "value": "world",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

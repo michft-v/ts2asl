@@ -1,0 +1,123 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign obj",
+      "name": {
+        "identifier": "obj",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "obj = { name: undefined as string | undefined }",
+      "expression": {
+        "properties": {
+          "name": {
+            "type": "null",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result: { a?: string, b?: string; } = {}",
+      "expression": {
+        "properties": {},
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "result.a",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "condition": {
+          "rhs": {
+            "identifier": "obj.name",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "identifier": "obj.name",
+          "type": "string",
+          "_syntaxKind": "identifier"
+        },
+        "whenFalse": {
+          "value": "jim",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "stateName": "Assign result.a",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "obj.name",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "value": "jack",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "stateName": "Assign obj.name",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "name": {
+        "identifier": "result.b",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "condition": {
+          "rhs": {
+            "identifier": "obj.name",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "identifier": "obj.name",
+          "type": "string",
+          "_syntaxKind": "identifier"
+        },
+        "whenFalse": {
+          "value": "jim",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "stateName": "Assign result.b",
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return result",
+      "expression": {
+        "identifier": "result",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

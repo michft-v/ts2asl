@@ -1,0 +1,114 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign counter",
+      "name": {
+        "identifier": "counter",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "counter = \"\"",
+      "expression": {
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Do While (counter != \"aaaaa\")",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "identifier": "counter",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "aaaaa",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "while": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "counter",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "arguments": [
+                {
+                  "value": "{}a",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                {
+                  "identifier": "counter",
+                  "type": "string",
+                  "_syntaxKind": "identifier"
+                }
+              ],
+              "type": "unknown",
+              "function": "asl.states.format",
+              "_syntaxKind": "asl-intrinsic-function"
+            },
+            "stateName": "Assign counter",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "stateName": "If (counter == \"aa\")",
+            "condition": {
+              "lhs": {
+                "identifier": "counter",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              },
+              "operator": "eq",
+              "rhs": {
+                "value": "aa",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "then": {
+              "statements": [
+                {
+                  "stateName": "Return counter",
+                  "expression": {
+                    "identifier": "counter",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "_syntaxKind": "return"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "if (counter == \"aa\") {\n      return counter; //returns \"aa\"\n    }",
+            "_syntaxKind": "if"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "do {\n    counter = `${counter}a`;\n    if (counter == \"aa\") {\n      return counter; //returns \"aa\"\n    }\n  } while (counter != \"aaaaa\")",
+      "_syntaxKind": "do-while"
+    },
+    {
+      "stateName": "Throw Error",
+      "cause": "this should not happen",
+      "error": "Error",
+      "source": "throw new Error(\"this should not happen\");",
+      "_syntaxKind": "asl-fail-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

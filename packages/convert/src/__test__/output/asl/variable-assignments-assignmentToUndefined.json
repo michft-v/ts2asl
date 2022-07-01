@@ -1,0 +1,27 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign _undefined"
+    },
+    "Assign _undefined": {
+      "Type": "Pass",
+      "InputPath": "$._undefined",
+      "ResultPath": "$.vars._undefined",
+      "Comment": "source: _undefined = undefined",
+      "Next": "Return \"ok\""
+    },
+    "Return \"ok\"": {
+      "Type": "Pass",
+      "Result": "ok",
+      "End": true
+    }
+  }
+}

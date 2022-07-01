@@ -1,0 +1,63 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Fail State Wrapper"
+    },
+    "Fail State Wrapper": {
+      "Type": "Parallel",
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.vars.err",
+          "Next": "If (err.Cause === \"NotImp ..."
+        }
+      ],
+      "End": true,
+      "Branches": [
+        {
+          "StartAt": "Throw NotImplemented",
+          "States": {
+            "Throw NotImplemented": {
+              "Type": "Fail",
+              "Error": "NotImplemented",
+              "Cause": "not implemented",
+              "Comment": "source: throw new NotImplemented(\"not implemented\")"
+            }
+          }
+        }
+      ]
+    },
+    "If (err.Cause === \"NotImp ...": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.err.Cause",
+          "StringEquals": "NotImplemented",
+          "Next": "Return \"Todo\""
+        }
+      ],
+      "Comment": "source: if (err.Cause === \"NotImplemented\") { return \" ...",
+      "Default": "Empty Default Choice"
+    },
+    "Return \"Todo\"": {
+      "Type": "Pass",
+      "Result": "Todo",
+      "End": true
+    },
+    "Empty Default Choice": {
+      "Type": "Pass",
+      "ResultPath": null,
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign arr",
+      "name": {
+        "identifier": "arr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "arr = [1, 2, 3]",
+      "expression": {
+        "elements": [
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result = \"\"",
+      "expression": {
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "For item Of arr",
+      "items": {
+        "identifier": "arr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "item",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "If (item === 2)",
+            "condition": {
+              "lhs": {
+                "identifier": "item",
+                "type": "numeric",
+                "_syntaxKind": "identifier"
+              },
+              "operator": "eq",
+              "rhs": {
+                "value": 2,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "then": {
+              "statements": [
+                {
+                  "stateName": "Continue",
+                  "_syntaxKind": "continue"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "if (item === 2) {\n      continue; // this break will prevent 2 from being added to the string\n    }",
+            "_syntaxKind": "if"
+          },
+          {
+            "stateName": "If (result === \"\")",
+            "condition": {
+              "lhs": {
+                "identifier": "result",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              },
+              "operator": "eq",
+              "rhs": {
+                "value": "",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "then": {
+              "statements": [
+                {
+                  "name": {
+                    "identifier": "result",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "expression": {
+                    "arguments": [
+                      {
+                        "value": "{}",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      {
+                        "identifier": "item",
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
+                      }
+                    ],
+                    "type": "unknown",
+                    "function": "asl.states.format",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "stateName": "Assign result",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "else": {
+              "statements": [
+                {
+                  "name": {
+                    "identifier": "result",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "expression": {
+                    "arguments": [
+                      {
+                        "value": "{}, {}",
+                        "type": "string",
+                        "_syntaxKind": "literal"
+                      },
+                      {
+                        "identifier": "result",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      {
+                        "identifier": "item",
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
+                      }
+                    ],
+                    "type": "unknown",
+                    "function": "asl.states.format",
+                    "_syntaxKind": "asl-intrinsic-function"
+                  },
+                  "stateName": "Assign result",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "if (result === \"\") { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n    } else {\n      result = `${result}, ${item}`;\n    }",
+            "_syntaxKind": "if"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "for (const item of arr) {\n    if (item === 2) {\n      continue; // this break will prevent 2 from being added to the string\n    }\n    if (result === \"\") { //first element should not be prefixed with a comma\n      result = asl.convert.numberToString(item);\n    } else {\n      result = `${result}, ${item}`;\n    }\n  }",
+      "_syntaxKind": "for-each"
+    },
+    {
+      "stateName": "Return result",
+      "expression": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

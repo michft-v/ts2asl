@@ -1,0 +1,84 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign obj",
+      "name": {
+        "identifier": "obj",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "obj = { name: undefined }",
+      "expression": {
+        "properties": {
+          "name": {
+            "type": "null",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return",
+      "expression": {
+        "condition": {
+          "rhs": {
+            "condition": {
+              "rhs": {
+                "value": null,
+                "type": "null",
+                "_syntaxKind": "literal"
+              },
+              "operator": "is-truthy",
+              "_syntaxKind": "binary-expression"
+            },
+            "whenTrue": {
+              "value": null,
+              "type": "null",
+              "_syntaxKind": "literal"
+            },
+            "whenFalse": {
+              "identifier": "obj.name",
+              "type": "unknown",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "conditional-expression"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "condition": {
+            "rhs": {
+              "value": null,
+              "type": "null",
+              "_syntaxKind": "literal"
+            },
+            "operator": "is-truthy",
+            "_syntaxKind": "binary-expression"
+          },
+          "whenTrue": {
+            "value": null,
+            "type": "null",
+            "_syntaxKind": "literal"
+          },
+          "whenFalse": {
+            "identifier": "obj.name",
+            "type": "unknown",
+            "_syntaxKind": "identifier"
+          },
+          "_syntaxKind": "conditional-expression"
+        },
+        "whenFalse": {
+          "value": "world",
+          "type": "string",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

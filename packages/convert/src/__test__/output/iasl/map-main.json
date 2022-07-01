@@ -1,0 +1,129 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign entries",
+      "name": {
+        "identifier": "entries",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "entries = await getEntries()",
+      "expression": {
+        "stateName": "getEntries()",
+        "resource": "[!lambda[getEntries]arn]",
+        "retry": [
+          {
+            "errorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            "intervalSeconds": 2,
+            "maxAttempts": 6,
+            "backoffRate": 2
+          }
+        ],
+        "source": "getEntries()",
+        "_syntaxKind": "asl-task-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "items": {
+        "identifier": "entries",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "entry",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "PutItem",
+            "resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
+            "parameters": {
+              "properties": {
+                "Item": {
+                  "properties": {
+                    "pk": {
+                      "properties": {
+                        "S": {
+                          "value": "pk",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    },
+                    "sk": {
+                      "properties": {
+                        "S": {
+                          "arguments": [
+                            {
+                              "value": "sk#{}",
+                              "type": "string",
+                              "_syntaxKind": "literal"
+                            },
+                            {
+                              "identifier": "entry",
+                              "type": "string",
+                              "_syntaxKind": "identifier"
+                            }
+                          ],
+                          "type": "unknown",
+                          "function": "asl.states.format",
+                          "_syntaxKind": "asl-intrinsic-function"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    },
+                    "status": {
+                      "properties": {
+                        "S": {
+                          "value": "available",
+                          "type": "string",
+                          "_syntaxKind": "literal"
+                        }
+                      },
+                      "_syntaxKind": "literal-object"
+                    }
+                  },
+                  "_syntaxKind": "literal-object"
+                },
+                "ConditionExpression": {
+                  "value": "attribute_not_exists(:sk)",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "TableName": {
+                  "value": "[!parameter[tableName]]",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            "catch": [
+              {
+                "errorEquals": [
+                  "DynamoDb.ConditionalCheckFailedException"
+                ],
+                "block": {
+                  "statements": [],
+                  "_syntaxKind": "function"
+                }
+              }
+            ],
+            "_syntaxKind": "asl-task-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "_syntaxKind": "asl-map-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

@@ -1,0 +1,75 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign enclosedVar"
+    },
+    "Assign enclosedVar": {
+      "Type": "Pass",
+      "Result": "before",
+      "ResultPath": "$.vars.enclosedVar",
+      "Comment": "source: enclosedVar = \"before\"",
+      "Next": "If (true)"
+    },
+    "If (true)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "IsNull": false,
+          "Next": "Assign enclosedVar_1"
+        }
+      ],
+      "Comment": "source: if (true) { enclosedVar = \"outer if\"; if (true ...",
+      "Default": "Assign enclosedVar_4"
+    },
+    "Assign enclosedVar_1": {
+      "Type": "Pass",
+      "Result": "outer if",
+      "ResultPath": "$.vars.enclosedVar",
+      "Next": "If (true)_1"
+    },
+    "If (true)_1": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "IsNull": false,
+          "Next": "Assign enclosedVar_2"
+        }
+      ],
+      "Comment": "source: if (true) { enclosedVar = \"inner if\"; } else { ...",
+      "Default": "Assign enclosedVar_3"
+    },
+    "Assign enclosedVar_2": {
+      "Type": "Pass",
+      "Result": "inner if",
+      "ResultPath": "$.vars.enclosedVar",
+      "Next": "Return enclosedVar"
+    },
+    "Assign enclosedVar_3": {
+      "Type": "Pass",
+      "Result": "else if",
+      "ResultPath": "$.vars.enclosedVar",
+      "Next": "Return enclosedVar"
+    },
+    "Assign enclosedVar_4": {
+      "Type": "Pass",
+      "Result": "outer else if",
+      "ResultPath": "$.vars.enclosedVar",
+      "Next": "Return enclosedVar"
+    },
+    "Return enclosedVar": {
+      "Type": "Pass",
+      "InputPath": "$.vars.enclosedVar",
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "type": "object",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "Return",
+      "expression": {
+        "arguments": [
+          {
+            "value": "{} {}",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "identifier": "input.firstName",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          {
+            "identifier": "input.lastName",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          }
+        ],
+        "type": "unknown",
+        "function": "asl.states.format",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

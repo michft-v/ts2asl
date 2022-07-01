@@ -1,0 +1,52 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "PutItem"
+    },
+    "Empty Catch": {
+      "Type": "Pass",
+      "End": true
+    },
+    "PutItem": {
+      "Type": "Task",
+      "ResultPath": null,
+      "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
+      "Parameters": {
+        "Item": {
+          "pk": {
+            "S": "pk-value"
+          },
+          "sk": {
+            "S": "sk-value"
+          },
+          "string": {
+            "S": "value"
+          },
+          "number": {
+            "N": "42"
+          }
+        },
+        "ConditionExpression": "attribute_not_exists(pk)",
+        "TableName": "[!parameter[assignmentsTableName]]"
+      },
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "DynamoDb.ConditionalCheckFailedException"
+          ],
+          "ResultPath": null,
+          "Next": "Empty Catch"
+        }
+      ],
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign numbers"
+    },
+    "Assign numbers": {
+      "Type": "Pass",
+      "Result": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "ResultPath": "$.vars.numbers",
+      "Comment": "source: numbers = [0, 1, 2, 3]",
+      "Next": "Assign letters"
+    },
+    "Assign letters": {
+      "Type": "Pass",
+      "Result": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "ResultPath": "$.vars.letters",
+      "Comment": "source: letters = [\"a\", \"b\", \"c\", \"d\"]",
+      "Next": "Assign global"
+    },
+    "Assign global": {
+      "Type": "Pass",
+      "Result": "prefix",
+      "ResultPath": "$.vars.global",
+      "Comment": "source: global = \"prefix\"",
+      "Next": "Assign outer"
+    },
+    "Assign outer": {
+      "Type": "Pass",
+      "Result": {
+        "middle": {
+          "inner": 3
+        }
+      },
+      "ResultPath": "$.vars.outer",
+      "Comment": "source: outer = { middle: { inner: 3 } }",
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "Result": "",
+      "ResultPath": "$.vars.result",
+      "Comment": "source: result = ``",
+      "Next": "Foreach Initialize"
+    },
+    "Foreach Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.vars.numbers",
+        "currentItem.$": "$.vars.numbers[0]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Foreach CheckDone": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.items[0]",
+          "IsPresent": true,
+          "Next": "Foreach Initialize 2"
+        }
+      ],
+      "Default": "Foreach Exit"
+    },
+    "Foreach Initialize 2": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach_2",
+      "Parameters": {
+        "items.$": "$.vars.letters",
+        "currentItem.$": "$.vars.letters[0]"
+      },
+      "Next": "Foreach CheckDone 2"
+    },
+    "Foreach CheckDone 2": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach_2.items[0]",
+          "IsPresent": true,
+          "Next": "Assign combined"
+        }
+      ],
+      "Default": "Foreach Exit 2"
+    },
+    "Assign combined": {
+      "Type": "Pass",
+      "Parameters": {
+        "number.$": "$.foreach.currentItem",
+        "letter.$": "$.foreach_2.currentItem",
+        "global.$": "$.vars.global",
+        "inner.$": "$.vars.outer.middle.inner"
+      },
+      "ResultPath": "$.vars.combined",
+      "Comment": "source: combined = { number, letter, global, inner: ou ...",
+      "Next": "Evaluate Format('{}, {}', ..."
+    },
+    "Evaluate Format('{}, {}', ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}, {}', $.vars.result, States.JsonToString($.vars.combined))"
+      },
+      "Next": "Assign result_1"
+    },
+    "Assign result_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
+      "Next": "Foreach Next 2"
+    },
+    "Foreach Exit 2": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach_2",
+      "Result": {},
+      "Next": "Foreach Next"
+    },
+    "Foreach Next 2": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach_2",
+      "Parameters": {
+        "items.$": "$.foreach_2.items[1:]",
+        "currentItem.$": "$.foreach_2.items[1]"
+      },
+      "Next": "Foreach CheckDone 2"
+    },
+    "Foreach Exit": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Result": {},
+      "Next": "Return result"
+    },
+    "Foreach Next": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.foreach.items[1:]",
+        "currentItem.$": "$.foreach.items[1]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Return result": {
+      "Type": "Pass",
+      "InputPath": "$.vars.result",
+      "End": true
+    }
+  }
+}

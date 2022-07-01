@@ -1,0 +1,68 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign numbers",
+      "name": {
+        "identifier": "numbers",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "numbers = [0, 1, 2, 3]",
+      "expression": {
+        "elements": [
+          {
+            "value": 0,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "For _number Of numbers",
+      "items": {
+        "identifier": "numbers",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "_number",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [],
+        "_syntaxKind": "function"
+      },
+      "source": "for (const _number of numbers) {\n\n  }",
+      "_syntaxKind": "for-each"
+    },
+    {
+      "stateName": "Return \"ok\"",
+      "expression": {
+        "value": "ok",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

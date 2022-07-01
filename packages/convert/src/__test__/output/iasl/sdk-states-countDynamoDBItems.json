@@ -1,0 +1,79 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result = (await asl.sdkDynamoDBQuery({\n    name: \"COUNT(where gsi1pk === 'test')\",\n    parameters: {\n      TableName: asl.deploy.getParameter(\"tableName\"),\n      IndexName: \"GSI1\",\n      KeyConditionExpression: \"#pk = :val\",\n      ExpressionAttributeNames: { \"#pk\": \"gsi1pk\" },\n      ExpressionAttributeValues: { \":val\": { S: \"test\" } },\n      Select: \"COUNT\",\n    },\n  })) as { Count: number }",
+      "expression": {
+        "stateName": "COUNT(where gsi1pk === 'test')",
+        "resource": "arn:aws:states:::aws-sdk:dynamodb:query",
+        "parameters": {
+          "properties": {
+            "TableName": {
+              "value": "[!parameter[tableName]]",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "IndexName": {
+              "value": "GSI1",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "KeyConditionExpression": {
+              "value": "#pk = :val",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "ExpressionAttributeNames": {
+              "properties": {
+                "#pk": {
+                  "value": "gsi1pk",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            "ExpressionAttributeValues": {
+              "properties": {
+                ":val": {
+                  "properties": {
+                    "S": {
+                      "value": "test",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    }
+                  },
+                  "_syntaxKind": "literal-object"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            },
+            "Select": {
+              "value": "COUNT",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "_syntaxKind": "asl-task-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return result.Count",
+      "expression": {
+        "identifier": "result.Count",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

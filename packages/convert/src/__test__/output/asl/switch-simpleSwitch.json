@@ -1,0 +1,132 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign arr"
+    },
+    "Assign arr": {
+      "Type": "Pass",
+      "Result": [
+        1,
+        2,
+        3
+      ],
+      "ResultPath": "$.vars.arr",
+      "Comment": "source: arr = [1, 2, 3]",
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "Result": "",
+      "ResultPath": "$.vars.result",
+      "Comment": "source: result = \"\"",
+      "Next": "Foreach Initialize"
+    },
+    "Foreach Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.vars.arr",
+        "currentItem.$": "$.vars.arr[0]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Foreach CheckDone": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.items[0]",
+          "IsPresent": true,
+          "Next": "Switch (item)"
+        }
+      ],
+      "Default": "Foreach Exit"
+    },
+    "Switch (item)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.foreach.currentItem",
+          "NumericEquals": 1,
+          "Next": "Evaluate Format('{}one', ..."
+        },
+        {
+          "Variable": "$.foreach.currentItem",
+          "NumericEquals": 2,
+          "Next": "Evaluate Format('{}two', ..."
+        }
+      ],
+      "Comment": "source: switch (item) { case 1: result = `${result}one ...",
+      "Default": "Evaluate Format('{}three' ..."
+    },
+    "Evaluate Format('{}one', ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}one', $.vars.result)"
+      },
+      "Next": "Assign result_1"
+    },
+    "Assign result_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
+      "Next": "Foreach Next"
+    },
+    "Evaluate Format('{}two', ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}two', $.vars.result)"
+      },
+      "Next": "Assign result_2"
+    },
+    "Assign result_2": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
+      "Next": "Foreach Next"
+    },
+    "Evaluate Format('{}three' ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}three', $.vars.result)"
+      },
+      "Next": "Assign result_3"
+    },
+    "Assign result_3": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
+      "Next": "Foreach Next"
+    },
+    "Foreach Exit": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Result": {},
+      "Next": "Return result"
+    },
+    "Foreach Next": {
+      "Type": "Pass",
+      "ResultPath": "$.foreach",
+      "Parameters": {
+        "items.$": "$.foreach.items[1:]",
+        "currentItem.$": "$.foreach.items[1]"
+      },
+      "Next": "Foreach CheckDone"
+    },
+    "Return result": {
+      "Type": "Pass",
+      "InputPath": "$.vars.result",
+      "End": true
+    }
+  }
+}

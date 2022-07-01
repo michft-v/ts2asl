@@ -1,0 +1,71 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign val"
+    },
+    "Assign val": {
+      "Type": "Pass",
+      "Result": {
+        "a": "",
+        "b": "",
+        "c": "",
+        "d": "",
+        "e": "",
+        "f": "",
+        "g": ""
+      },
+      "ResultPath": "$.vars.val",
+      "Comment": "source: val = { a: \"\", b: \"\", c: \"\", d: \"\", e: \"\", f:  ...",
+      "Next": "Assign val.a"
+    },
+    "Assign val.a": {
+      "Type": "Pass",
+      "Result": "before",
+      "ResultPath": "$.vars.val.a",
+      "Next": "If (true)"
+    },
+    "If (true)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "IsNull": false,
+          "Next": "Assign val.b"
+        }
+      ],
+      "Comment": "source: if (true) { val.b = \"true_1\"; val.c = \"true_2\"; }",
+      "Default": "Assign val.d"
+    },
+    "Assign val.b": {
+      "Type": "Pass",
+      "Result": "true_1",
+      "ResultPath": "$.vars.val.b",
+      "Next": "Assign val.c"
+    },
+    "Assign val.c": {
+      "Type": "Pass",
+      "Result": "true_2",
+      "ResultPath": "$.vars.val.c",
+      "Next": "Assign val.d"
+    },
+    "Assign val.d": {
+      "Type": "Pass",
+      "Result": "after",
+      "ResultPath": "$.vars.val.d",
+      "Next": "Return val"
+    },
+    "Return val": {
+      "Type": "Pass",
+      "InputPath": "$.vars.val",
+      "End": true
+    }
+  }
+}

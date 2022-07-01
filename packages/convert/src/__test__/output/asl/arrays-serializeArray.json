@@ -1,0 +1,64 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Evaluate Array(1, 2, 3, 4 ..."
+    },
+    "Evaluate Array(1, 2, 3, 4 ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)"
+      },
+      "Next": "Assign myArray"
+    },
+    "Assign myArray": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.myArray",
+      "Comment": "source: myArray = asl.states.array(1, 2, 3, 4, 5, 6, 7 ...",
+      "Next": "Evaluate JsonToString($.v ..."
+    },
+    "Evaluate JsonToString($.v ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.JsonToString($.vars.myArray)"
+      },
+      "Next": "Assign mySerializedArray"
+    },
+    "Assign mySerializedArray": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.mySerializedArray",
+      "Comment": "source: mySerializedArray = asl.states.jsonToString(my ...",
+      "Next": "Evaluate StringToJson($.v ..."
+    },
+    "Evaluate StringToJson($.v ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.StringToJson($.vars.mySerializedArray)"
+      },
+      "Next": "Assign myArray_1"
+    },
+    "Assign myArray_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.myArray",
+      "Next": "Return myArray"
+    },
+    "Return myArray": {
+      "Type": "Pass",
+      "InputPath": "$.vars.myArray",
+      "End": true
+    }
+  }
+}

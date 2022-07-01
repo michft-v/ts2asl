@@ -1,0 +1,42 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign arr",
+      "name": {
+        "identifier": "arr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "arr: []",
+      "expression": {
+        "type": "null",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign two",
+      "name": {
+        "identifier": "two",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "two: string",
+      "expression": {
+        "type": "null",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return \"ok\"",
+      "expression": {
+        "value": "ok",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

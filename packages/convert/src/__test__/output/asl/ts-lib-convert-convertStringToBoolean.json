@@ -1,0 +1,80 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Evaluate StringToJson('true')"
+    },
+    "Evaluate StringToJson('true')": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.StringToJson('true')"
+      },
+      "Next": "Assign bool"
+    },
+    "Assign bool": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.bool",
+      "Comment": "source: bool = asl.convert.stringToBoolean(\"true\")",
+      "Next": "If (bool === true)"
+    },
+    "If (bool === true)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.bool",
+          "BooleanEquals": true,
+          "Next": "Evaluate Format('{}', $.v ..."
+        }
+      ],
+      "Comment": "source: if (bool === true) { const str = asl.convert.b ...",
+      "Default": "Throw Error"
+    },
+    "Evaluate Format('{}', $.v ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}', $.vars.bool)"
+      },
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.str",
+      "Comment": "source: str = asl.convert.booleanToString(bool)",
+      "Next": "If (str === \"true\")"
+    },
+    "If (str === \"true\")": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.str",
+          "StringEquals": "true",
+          "Next": "Return \"succeeded\""
+        }
+      ],
+      "Comment": "source: if (str === \"true\") { return \"succeeded\"; }",
+      "Default": "Throw Error"
+    },
+    "Return \"succeeded\"": {
+      "Type": "Pass",
+      "Result": "succeeded",
+      "End": true
+    },
+    "Throw Error": {
+      "Type": "Fail",
+      "Error": "Error",
+      "Cause": "failed",
+      "Comment": "source: throw new Error(\"failed\");"
+    }
+  }
+}

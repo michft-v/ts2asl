@@ -1,0 +1,189 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign arr",
+      "name": {
+        "identifier": "arr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "arr = [1, 2, 3]",
+      "expression": {
+        "elements": [
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result = \"\"",
+      "expression": {
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "For item Of arr",
+      "items": {
+        "identifier": "arr",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "item",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "Switch (item)",
+            "cases": [
+              {},
+              {
+                "when": {
+                  "lhs": {
+                    "identifier": "item",
+                    "type": "numeric",
+                    "_syntaxKind": "identifier"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": 1,
+                    "type": "numeric",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "then": {
+                  "statements": [
+                    {
+                      "name": {
+                        "identifier": "result",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      "expression": {
+                        "arguments": [
+                          {
+                            "value": "{}not-three",
+                            "type": "string",
+                            "_syntaxKind": "literal"
+                          },
+                          {
+                            "identifier": "result",
+                            "type": "string",
+                            "_syntaxKind": "identifier"
+                          }
+                        ],
+                        "type": "unknown",
+                        "function": "asl.states.format",
+                        "_syntaxKind": "asl-intrinsic-function"
+                      },
+                      "stateName": "Assign result",
+                      "_syntaxKind": "variable-assignment"
+                    },
+                    {
+                      "stateName": "Break",
+                      "_syntaxKind": "break"
+                    }
+                  ],
+                  "_syntaxKind": "function"
+                }
+              },
+              {
+                "when": {
+                  "lhs": {
+                    "identifier": "item",
+                    "type": "numeric",
+                    "_syntaxKind": "identifier"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": 3,
+                    "type": "numeric",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "then": {
+                  "statements": [
+                    {
+                      "name": {
+                        "identifier": "result",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      "expression": {
+                        "arguments": [
+                          {
+                            "value": "{}three",
+                            "type": "string",
+                            "_syntaxKind": "literal"
+                          },
+                          {
+                            "identifier": "result",
+                            "type": "string",
+                            "_syntaxKind": "identifier"
+                          }
+                        ],
+                        "type": "unknown",
+                        "function": "asl.states.format",
+                        "_syntaxKind": "asl-intrinsic-function"
+                      },
+                      "stateName": "Assign result",
+                      "_syntaxKind": "variable-assignment"
+                    },
+                    {
+                      "stateName": "Break",
+                      "_syntaxKind": "break"
+                    }
+                  ],
+                  "_syntaxKind": "function"
+                }
+              }
+            ],
+            "source": "switch (item) {\n      default:\n      case 1:\n        result = `${result}not-three`;\n        break;\n      case 3:\n        result = `${result}three`;\n        break;\n    }",
+            "_syntaxKind": "switch"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "for (const item of arr) {\n    switch (item) {\n      default:\n      case 1:\n        result = `${result}not-three`;\n        break;\n      case 3:\n        result = `${result}three`;\n        break;\n    }\n  }",
+      "_syntaxKind": "for-each"
+    },
+    {
+      "stateName": "Return result",
+      "expression": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

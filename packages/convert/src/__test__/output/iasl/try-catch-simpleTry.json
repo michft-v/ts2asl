@@ -1,0 +1,86 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result = \"\"",
+      "expression": {
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Try Catch",
+      "try": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "result",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "succeeded",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign result",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "stateName": "Throw Error",
+            "cause": "fail",
+            "error": "Error",
+            "source": "throw new Error(\"fail\");",
+            "_syntaxKind": "asl-fail-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "catch": [
+        {
+          "errorEquals": [
+            "States.ALL"
+          ],
+          "block": {
+            "statements": [
+              {
+                "name": {
+                  "identifier": "result",
+                  "type": "string",
+                  "_syntaxKind": "identifier"
+                },
+                "expression": {
+                  "value": "failed",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "stateName": "Assign result",
+                "_syntaxKind": "variable-assignment"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "source": "try {\n    result = \"succeeded\";\n    throw new Error(\"fail\");\n  } catch {\n    result = \"failed\";\n  }",
+      "_syntaxKind": "try"
+    },
+    {
+      "stateName": "Return result",
+      "expression": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

@@ -1,0 +1,250 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign createAccount",
+      "name": {
+        "identifier": "createAccount",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "createAccount = await asl.sdkOrganizationsCreateAccount({ parameters: { AccountName: \"test\", Email: \"something@email.com\" } })",
+      "expression": {
+        "stateName": "CreateAccount",
+        "resource": "arn:aws:states:::aws-sdk:organizations:createAccount",
+        "parameters": {
+          "properties": {
+            "AccountName": {
+              "value": "test",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "Email": {
+              "value": "something@email.com",
+              "type": "string",
+              "_syntaxKind": "literal"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "_syntaxKind": "asl-task-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign creationStatus",
+      "name": {
+        "identifier": "creationStatus",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "creationStatus: string | undefined = undefined",
+      "expression": {
+        "type": "null",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Do While (creationStatus ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "identifier": "creationStatus",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "SUCCEEDED",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "while": {
+        "statements": [
+          {
+            "stateName": "Assign describeResult",
+            "name": {
+              "identifier": "describeResult",
+              "type": "object",
+              "_syntaxKind": "identifier"
+            },
+            "source": "describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } })",
+            "expression": {
+              "stateName": "DescribeCreateAccountStatus",
+              "resource": "arn:aws:states:::aws-sdk:organizations:describeCreateAccountStatus",
+              "parameters": {
+                "properties": {
+                  "CreateAccountRequestId": {
+                    "identifier": "createAccount.CreateAccountStatus.Id",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              },
+              "_syntaxKind": "asl-task-state"
+            },
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "name": {
+              "identifier": "creationStatus",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "condition": {
+                "rhs": {
+                  "identifier": "describeResult.CreateAccountStatus",
+                  "type": "object",
+                  "_syntaxKind": "identifier"
+                },
+                "operator": "is-truthy",
+                "_syntaxKind": "binary-expression"
+              },
+              "whenTrue": {
+                "identifier": "describeResult.CreateAccountStatus.State",
+                "type": "unknown",
+                "_syntaxKind": "identifier"
+              },
+              "whenFalse": {
+                "value": null,
+                "type": "null",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "conditional-expression"
+            },
+            "stateName": "Assign creationStatus",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "stateName": "Switch (creationStatus)",
+            "cases": [
+              {
+                "when": {
+                  "lhs": {
+                    "identifier": "creationStatus",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": "FAILED",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "then": {
+                  "statements": [
+                    {
+                      "stateName": "Throw Error",
+                      "cause": "account creation failed",
+                      "error": "Error",
+                      "source": "throw new Error(\"account creation failed\");",
+                      "_syntaxKind": "asl-fail-state"
+                    }
+                  ],
+                  "_syntaxKind": "function"
+                }
+              },
+              {
+                "when": {
+                  "lhs": {
+                    "identifier": "creationStatus",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "operator": "eq",
+                  "rhs": {
+                    "value": "IN_PROGRESS",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "binary-expression"
+                },
+                "then": {
+                  "statements": [
+                    {
+                      "seconds": {
+                        "value": 1,
+                        "type": "numeric",
+                        "_syntaxKind": "literal"
+                      },
+                      "_syntaxKind": "asl-wait-state"
+                    }
+                  ],
+                  "_syntaxKind": "function"
+                }
+              }
+            ],
+            "source": "switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }",
+            "_syntaxKind": "switch"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "do {\n    const describeResult = await asl.sdkOrganizationsDescribeCreateAccountStatus({ parameters: { CreateAccountRequestId: createAccount.CreateAccountStatus!.Id } });\n    creationStatus = describeResult.CreateAccountStatus?.State;\n    switch (creationStatus) {\n      case \"FAILED\": throw new Error(\"account creation failed\");\n      case \"IN_PROGRESS\": await asl.wait({ seconds: 1 });\n    }\n  } while (creationStatus !== \"SUCCEEDED\");",
+      "_syntaxKind": "do-while"
+    },
+    {
+      "stateName": "Log (createAccount.Create ...",
+      "parameters": {
+        "condition": {
+          "rhs": {
+            "identifier": "createAccount.CreateAccountStatus",
+            "type": "object",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "identifier": "createAccount.CreateAccountStatus.AccountId",
+          "type": "unknown",
+          "_syntaxKind": "identifier"
+        },
+        "whenFalse": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "source": "console.log(createAccount.CreateAccountStatus?.AccountId)",
+      "_syntaxKind": "asl-pass-state"
+    },
+    {
+      "stateName": "Return createAccount.Crea ...",
+      "expression": {
+        "condition": {
+          "rhs": {
+            "identifier": "createAccount.CreateAccountStatus",
+            "type": "object",
+            "_syntaxKind": "identifier"
+          },
+          "operator": "is-truthy",
+          "_syntaxKind": "binary-expression"
+        },
+        "whenTrue": {
+          "identifier": "createAccount.CreateAccountStatus.AccountId",
+          "type": "unknown",
+          "_syntaxKind": "identifier"
+        },
+        "whenFalse": {
+          "value": null,
+          "type": "null",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "conditional-expression"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

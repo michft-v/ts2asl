@@ -1,0 +1,74 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign args",
+      "name": {
+        "identifier": "args",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "args = {firstName: \"Santa\", lastName: \"Claus\" }",
+      "expression": {
+        "properties": {
+          "firstName": {
+            "value": "Santa",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "lastName": {
+            "value": "Claus",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign name",
+      "name": {
+        "identifier": "name",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "name = await childStateMachine(args)",
+      "expression": {
+        "stateName": "childStateMachine(args)",
+        "integrationPattern": "sync",
+        "stateMachineName": "[!state-machine[childStateMachine]name]",
+        "stateMachineArn": "[!state-machine[childStateMachine]arn]",
+        "parameters": {
+          "identifier": "args",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "retry": [
+          {
+            "errorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            "intervalSeconds": 2,
+            "maxAttempts": 6,
+            "backoffRate": 2
+          }
+        ],
+        "source": "childStateMachine(args)",
+        "_syntaxKind": "asl-invoke-state-machine"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return name",
+      "expression": {
+        "identifier": "name",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

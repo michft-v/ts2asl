@@ -1,0 +1,125 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign str",
+      "name": {
+        "identifier": "str",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "str = \"string\"",
+      "expression": {
+        "value": "string",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign num",
+      "name": {
+        "identifier": "num",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "source": "num = 42",
+      "expression": {
+        "value": 42,
+        "type": "numeric",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign bool",
+      "name": {
+        "identifier": "bool",
+        "type": "boolean",
+        "_syntaxKind": "identifier"
+      },
+      "source": "bool = true || false",
+      "expression": {
+        "value": true,
+        "type": "boolean",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign object",
+      "name": {
+        "identifier": "object",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "object = { str, num, bool }",
+      "expression": {
+        "properties": {
+          "str": {
+            "identifier": "str",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          "num": {
+            "identifier": "num",
+            "type": "numeric",
+            "_syntaxKind": "identifier"
+          },
+          "bool": {
+            "identifier": "bool",
+            "type": "boolean",
+            "_syntaxKind": "identifier"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign array",
+      "name": {
+        "identifier": "array",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "expression": {
+        "arguments": [
+          {
+            "identifier": "str",
+            "type": "string",
+            "_syntaxKind": "identifier"
+          },
+          {
+            "identifier": "num",
+            "type": "numeric",
+            "_syntaxKind": "identifier"
+          },
+          {
+            "identifier": "bool",
+            "type": "boolean",
+            "_syntaxKind": "identifier"
+          },
+          {
+            "identifier": "object",
+            "type": "object",
+            "_syntaxKind": "identifier"
+          }
+        ],
+        "type": "unknown",
+        "function": "asl.states.array",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return array",
+      "expression": {
+        "identifier": "array",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

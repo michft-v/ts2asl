@@ -1,0 +1,55 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign value",
+      "name": {
+        "identifier": "value",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "source": "value = 42",
+      "expression": {
+        "value": 42,
+        "type": "numeric",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Publish Metric Data",
+      "resource": "arn:aws:states:::aws-sdk:cloudwatch:putMetricData",
+      "parameters": {
+        "properties": {
+          "MetricData": {
+            "elements": [
+              {
+                "properties": {
+                  "MetricName": {
+                    "value": "ExampleMetric",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "Value": {
+                    "identifier": "value",
+                    "type": "numeric",
+                    "_syntaxKind": "identifier"
+                  }
+                },
+                "_syntaxKind": "literal-object"
+              }
+            ],
+            "_syntaxKind": "literal-array"
+          },
+          "Namespace": {
+            "value": "ExampleNamespace",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "asl-task-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

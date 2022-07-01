@@ -1,0 +1,114 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "type": "object",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "If (typeof input.name !== ...",
+      "condition": {
+        "operator": "not",
+        "rhs": {
+          "lhs": {
+            "operand": {
+              "identifier": "input.name",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "_syntaxKind": "type-of-expression"
+          },
+          "operator": "eq",
+          "rhs": {
+            "value": "string",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "_syntaxKind": "binary-expression"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "input.name",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "World",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign input.name",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (typeof input.name !== \"string\") {\n    input.name = \"World\";\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "Assign rnd",
+      "name": {
+        "identifier": "rnd",
+        "type": "numeric",
+        "_syntaxKind": "identifier"
+      },
+      "source": "rnd = await random()",
+      "expression": {
+        "stateName": "random()",
+        "resource": "[!lambda[random]arn]",
+        "retry": [
+          {
+            "errorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            "intervalSeconds": 2,
+            "maxAttempts": 6,
+            "backoffRate": 2
+          }
+        ],
+        "source": "random()",
+        "_syntaxKind": "asl-task-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return { greeting: `H ...",
+      "expression": {
+        "properties": {
+          "greeting": {
+            "arguments": [
+              {
+                "value": "Hello {}",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              {
+                "identifier": "input.name",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              }
+            ],
+            "type": "unknown",
+            "function": "asl.states.format",
+            "_syntaxKind": "asl-intrinsic-function"
+          },
+          "luckyNumber": {
+            "identifier": "rnd",
+            "type": "numeric",
+            "_syntaxKind": "identifier"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

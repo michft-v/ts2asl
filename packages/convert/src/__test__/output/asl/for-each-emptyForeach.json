@@ -1,0 +1,32 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign numbers"
+    },
+    "Assign numbers": {
+      "Type": "Pass",
+      "Result": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "ResultPath": "$.vars.numbers",
+      "Comment": "source: numbers = [0, 1, 2, 3]",
+      "Next": "Return \"ok\""
+    },
+    "Return \"ok\"": {
+      "Type": "Pass",
+      "Result": "ok",
+      "End": true
+    }
+  }
+}

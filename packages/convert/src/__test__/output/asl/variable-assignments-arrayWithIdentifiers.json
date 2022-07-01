@@ -1,0 +1,66 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "Result": "string",
+      "ResultPath": "$.vars.str",
+      "Comment": "source: str = \"string\"",
+      "Next": "Assign num"
+    },
+    "Assign num": {
+      "Type": "Pass",
+      "Result": 42,
+      "ResultPath": "$.vars.num",
+      "Comment": "source: num = 42",
+      "Next": "Assign bool"
+    },
+    "Assign bool": {
+      "Type": "Pass",
+      "Result": true,
+      "ResultPath": "$.vars.bool",
+      "Comment": "source: bool = true || false",
+      "Next": "Assign object"
+    },
+    "Assign object": {
+      "Type": "Pass",
+      "Parameters": {
+        "str.$": "$.vars.str",
+        "num.$": "$.vars.num",
+        "bool.$": "$.vars.bool"
+      },
+      "ResultPath": "$.vars.object",
+      "Comment": "source: object = { str, num, bool }",
+      "Next": "Evaluate Array($.vars.str ..."
+    },
+    "Evaluate Array($.vars.str ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Array($.vars.str, $.vars.num, $.vars.bool, $.vars.object)"
+      },
+      "Next": "Assign array"
+    },
+    "Assign array": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.array",
+      "Next": "Return array"
+    },
+    "Return array": {
+      "Type": "Pass",
+      "InputPath": "$.vars.array",
+      "End": true
+    }
+  }
+}

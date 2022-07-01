@@ -1,0 +1,49 @@
+{
+  "statements": [
+    {
+      "stateName": "Try Finally",
+      "try": {
+        "statements": [
+          {
+            "branches": [
+              {
+                "statements": [
+                  {
+                    "stateName": "Return \"succeeded\"",
+                    "expression": {
+                      "value": "succeeded",
+                      "type": "string",
+                      "_syntaxKind": "literal"
+                    },
+                    "_syntaxKind": "return"
+                  }
+                ],
+                "_syntaxKind": "function"
+              }
+            ],
+            "source": "Promise.all([() => \"succeeded\"])",
+            "_syntaxKind": "asl-parallel-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "finally": {
+        "statements": [
+          {
+            "stateName": "Return \"finally\"",
+            "expression": {
+              "value": "finally",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "_syntaxKind": "return"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "try {\n    await Promise.all([() => \"succeeded\"]);\n  } finally {\n    return \"finally\";\n  }",
+      "_syntaxKind": "try"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

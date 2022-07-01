@@ -1,0 +1,133 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign enclosedVar",
+      "name": {
+        "identifier": "enclosedVar",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "enclosedVar = \"before\"",
+      "expression": {
+        "value": "before",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (true)",
+      "condition": {
+        "rhs": {
+          "value": true,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "operator": "is-truthy",
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "enclosedVar",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "outer if",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign enclosedVar",
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "stateName": "If (true)",
+            "condition": {
+              "rhs": {
+                "value": true,
+                "type": "boolean",
+                "_syntaxKind": "literal"
+              },
+              "operator": "is-truthy",
+              "_syntaxKind": "binary-expression"
+            },
+            "then": {
+              "statements": [
+                {
+                  "name": {
+                    "identifier": "enclosedVar",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "expression": {
+                    "value": "inner if",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "stateName": "Assign enclosedVar",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "else": {
+              "statements": [
+                {
+                  "name": {
+                    "identifier": "enclosedVar",
+                    "type": "string",
+                    "_syntaxKind": "identifier"
+                  },
+                  "expression": {
+                    "value": "else if",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "stateName": "Assign enclosedVar",
+                  "_syntaxKind": "variable-assignment"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "if (true) {\n      enclosedVar = \"inner if\";\n    } else {\n      enclosedVar = \"else if\";\n    }",
+            "_syntaxKind": "if"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "else": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "enclosedVar",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "outer else if",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign enclosedVar",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (true) {\n    enclosedVar = \"outer if\";\n    if (true) {\n      enclosedVar = \"inner if\";\n    } else {\n      enclosedVar = \"else if\";\n    }\n  } else {\n    enclosedVar = \"outer else if\";\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "Return enclosedVar",
+      "expression": {
+        "identifier": "enclosedVar",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

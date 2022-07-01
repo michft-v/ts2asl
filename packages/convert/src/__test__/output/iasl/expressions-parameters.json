@@ -1,0 +1,29 @@
+{
+  "statements": [
+    {
+      "stateName": "Return",
+      "expression": {
+        "properties": {
+          "a": {
+            "value": "[!parameter[bucketName]]",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "b": {
+            "value": "s3:::arn:[!parameter[bucketName]]",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          "c": {
+            "value": "value -> [!parameter[bucketName]] <- value",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

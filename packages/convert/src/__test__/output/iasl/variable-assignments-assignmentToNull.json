@@ -1,0 +1,29 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign _null",
+      "name": {
+        "identifier": "_null",
+        "type": "unknown",
+        "_syntaxKind": "identifier"
+      },
+      "source": "_null = null",
+      "expression": {
+        "value": null,
+        "type": "null",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Return \"ok\"",
+      "expression": {
+        "value": "ok",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

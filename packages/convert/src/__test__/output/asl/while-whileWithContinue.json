@@ -1,0 +1,97 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign counter"
+    },
+    "Assign counter": {
+      "Type": "Pass",
+      "Result": "",
+      "ResultPath": "$.vars.counter",
+      "Comment": "source: counter = \"\"",
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Pass",
+      "Result": "",
+      "ResultPath": "$.vars.result",
+      "Comment": "source: result = \"\"",
+      "Next": "While Condition"
+    },
+    "While Condition": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.counter",
+            "StringEquals": "aaaaa"
+          },
+          "Next": "Evaluate Format('{}a', $. ..."
+        }
+      ],
+      "Default": "While Exit"
+    },
+    "Evaluate Format('{}a', $. ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}a', $.vars.counter)"
+      },
+      "Next": "Assign counter_1"
+    },
+    "Assign counter_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.counter",
+      "Next": "If (counter == \"aa\")"
+    },
+    "If (counter == \"aa\")": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.vars.counter",
+          "StringEquals": "aa",
+          "Next": "Continue"
+        }
+      ],
+      "Comment": "source: if (counter == \"aa\") { continue; }",
+      "Default": "Evaluate Format('{}b', $. ..."
+    },
+    "Continue": {
+      "ResultPath": null,
+      "Type": "Pass",
+      "Next": "While Condition"
+    },
+    "Evaluate Format('{}b', $. ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('{}b', $.vars.result)"
+      },
+      "Next": "Assign result_1"
+    },
+    "Assign result_1": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.result",
+      "Next": "While Condition"
+    },
+    "While Exit": {
+      "Type": "Pass",
+      "ResultPath": null,
+      "Next": "Return result"
+    },
+    "Return result": {
+      "Type": "Pass",
+      "InputPath": "$.vars.result",
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Evaluate Format('hello {} ..."
+    },
+    "Evaluate Format('hello {} ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('hello {}', 'world')"
+      },
+      "Next": "Assign str"
+    },
+    "Assign str": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.str",
+      "Comment": "source: str = asl.states.format(\"hello {}\", \"world\")",
+      "Next": "Evaluate Format('answer i ..."
+    },
+    "Evaluate Format('answer i ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('answer is {}', 42)"
+      },
+      "Next": "Assign num"
+    },
+    "Assign num": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.num",
+      "Comment": "source: num = asl.states.format(\"answer is {}\", 42)",
+      "Next": "Evaluate Format('1: {} 2 ..."
+    },
+    "Evaluate Format('1: {} 2 ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Format('1: {}\n 2: {}', $.vars.str, $.vars.num)"
+      },
+      "Next": "Assign combined"
+    },
+    "Assign combined": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.combined",
+      "Comment": "source: combined = asl.states.format(\"1: {}\\n 2: {}\",  ...",
+      "Next": "Evaluate Array($.vars.str ..."
+    },
+    "Evaluate Array($.vars.str ...": {
+      "Type": "Pass",
+      "ResultPath": "$.tmp.eval",
+      "Parameters": {
+        "value.$": "States.Array($.vars.str, $.vars.num, $.vars.combined)"
+      },
+      "Next": "Assign arr"
+    },
+    "Assign arr": {
+      "Type": "Pass",
+      "InputPath": "$.tmp.eval.value",
+      "ResultPath": "$.vars.arr",
+      "Comment": "source: arr = asl.states.array(str, num, combined)",
+      "Next": "Return arr"
+    },
+    "Return arr": {
+      "Type": "Pass",
+      "InputPath": "$.vars.arr",
+      "End": true
+    }
+  }
+}

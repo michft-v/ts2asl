@@ -1,0 +1,118 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign bool",
+      "name": {
+        "identifier": "bool",
+        "type": "boolean",
+        "_syntaxKind": "identifier"
+      },
+      "source": "bool = asl.convert.stringToBoolean(\"true\")",
+      "expression": {
+        "arguments": [
+          {
+            "value": "true",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "type": "unknown",
+        "function": "asl.states.stringToJson",
+        "_syntaxKind": "asl-intrinsic-function"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "If (bool === true)",
+      "condition": {
+        "lhs": {
+          "identifier": "bool",
+          "type": "boolean",
+          "_syntaxKind": "identifier"
+        },
+        "operator": "eq",
+        "rhs": {
+          "value": true,
+          "type": "boolean",
+          "_syntaxKind": "literal"
+        },
+        "_syntaxKind": "binary-expression"
+      },
+      "then": {
+        "statements": [
+          {
+            "stateName": "Assign str",
+            "name": {
+              "identifier": "str",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "source": "str = asl.convert.booleanToString(bool)",
+            "expression": {
+              "arguments": [
+                {
+                  "value": "{}",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                {
+                  "identifier": "bool",
+                  "type": "boolean",
+                  "_syntaxKind": "identifier"
+                }
+              ],
+              "type": "unknown",
+              "function": "asl.states.format",
+              "_syntaxKind": "asl-intrinsic-function"
+            },
+            "_syntaxKind": "variable-assignment"
+          },
+          {
+            "stateName": "If (str === \"true\")",
+            "condition": {
+              "lhs": {
+                "identifier": "str",
+                "type": "string",
+                "_syntaxKind": "identifier"
+              },
+              "operator": "eq",
+              "rhs": {
+                "value": "true",
+                "type": "string",
+                "_syntaxKind": "literal"
+              },
+              "_syntaxKind": "binary-expression"
+            },
+            "then": {
+              "statements": [
+                {
+                  "stateName": "Return \"succeeded\"",
+                  "expression": {
+                    "value": "succeeded",
+                    "type": "string",
+                    "_syntaxKind": "literal"
+                  },
+                  "_syntaxKind": "return"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "if (str === \"true\") {\n      return \"succeeded\";\n    }",
+            "_syntaxKind": "if"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "if (bool === true) {\n    const str = asl.convert.booleanToString(bool);\n    if (str === \"true\") {\n      return \"succeeded\";\n    }\n  }",
+      "_syntaxKind": "if"
+    },
+    {
+      "stateName": "Throw Error",
+      "cause": "failed",
+      "error": "Error",
+      "source": "throw new Error(\"failed\");",
+      "_syntaxKind": "asl-fail-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

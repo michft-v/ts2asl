@@ -1,0 +1,27 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Return { a: true, ..."
+    },
+    "Return { a: true, ...": {
+      "Type": "Pass",
+      "Result": {
+        "a": true,
+        "b": false,
+        "c": true,
+        "d": false,
+        "e": false,
+        "f": true
+      },
+      "End": true
+    }
+  }
+}

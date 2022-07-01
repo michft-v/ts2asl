@@ -1,0 +1,28 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Task",
+      "ResultPath": "$.vars.result",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "Parameters": {
+        "FunctionName": "sendApprovalEmail",
+        "Payload": {
+          "taskToken.$": "$$.Task.Token",
+          "request.$": "$.vars"
+        }
+      },
+      "End": true
+    }
+  }
+}

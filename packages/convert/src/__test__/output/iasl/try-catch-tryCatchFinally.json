@@ -1,0 +1,98 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result = \"\"",
+      "expression": {
+        "value": "",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Try Catch Finally",
+      "try": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "result",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "try",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign result",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "finally": {
+        "statements": [
+          {
+            "name": {
+              "identifier": "result",
+              "type": "string",
+              "_syntaxKind": "identifier"
+            },
+            "expression": {
+              "value": "finally",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "stateName": "Assign result",
+            "_syntaxKind": "variable-assignment"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "catch": [
+        {
+          "errorEquals": [
+            "States.ALL"
+          ],
+          "block": {
+            "statements": [
+              {
+                "name": {
+                  "identifier": "result",
+                  "type": "string",
+                  "_syntaxKind": "identifier"
+                },
+                "expression": {
+                  "value": "catch",
+                  "type": "string",
+                  "_syntaxKind": "literal"
+                },
+                "stateName": "Assign result",
+                "_syntaxKind": "variable-assignment"
+              }
+            ],
+            "_syntaxKind": "function"
+          }
+        }
+      ],
+      "source": "try {\n    result = \"try\"\n  } catch {\n    result = \"catch\"\n  } finally {\n    result = \"finally\"\n  }",
+      "_syntaxKind": "try"
+    },
+    {
+      "stateName": "Return result",
+      "expression": {
+        "identifier": "result",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "_syntaxKind": "return"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

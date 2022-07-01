@@ -1,0 +1,133 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign result"
+    },
+    "Assign result": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Assign",
+          "States": {
+            "Assign": {
+              "Type": "Task",
+              "ResultPath": "$.vars.return_var",
+              "Resource": "[!lambda[performIdentifyCheck]arn]",
+              "Comment": "source: performIdentifyCheck()",
+              "Retry": [
+                {
+                  "ErrorEquals": [
+                    "Lambda.ServiceException",
+                    "Lambda.AWSLambdaException",
+                    "Lambda.SdkClientException"
+                  ],
+                  "IntervalSeconds": 2,
+                  "MaxAttempts": 6,
+                  "BackoffRate": 2
+                }
+              ],
+              "Next": "Return"
+            },
+            "Return": {
+              "Type": "Pass",
+              "InputPath": "$.vars.return_var",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "Return { agencyChecked: t ...",
+          "States": {
+            "Return { agencyChecked: t ...": {
+              "Type": "Pass",
+              "Result": {
+                "agencyChecked": true
+              },
+              "End": true
+            }
+          }
+        }
+      ],
+      "ResultPath": "$.vars.result",
+      "Comment": "source: Promise.all([ performIdentifyCheck(), Promise. ...",
+      "Next": "PutEvents"
+    },
+    "PutEvents": {
+      "Type": "Task",
+      "ResultPath": null,
+      "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail.$": "States.JsonToString($.vars.result)",
+            "DetailType": "Identity check completed",
+            "EventBusName": "eventbusname",
+            "Source": "com.aws.kyc"
+          }
+        ]
+      },
+      "Next": "Assign checksPassed"
+    },
+    "Assign checksPassed": {
+      "Type": "Pass",
+      "Result": true,
+      "ResultPath": "$.vars.checksPassed",
+      "Comment": "source: checksPassed = true",
+      "Next": "If (checksPassed)"
+    },
+    "If (checksPassed)": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.vars.checksPassed",
+            "BooleanEquals": false
+          },
+          "Next": "PutEvents_1"
+        }
+      ],
+      "Comment": "source: if (checksPassed) { //no-op update risk profil ...",
+      "Default": "PutEvents_2"
+    },
+    "PutEvents_1": {
+      "Type": "Task",
+      "ResultPath": null,
+      "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail.$": "States.JsonToString($.vars.result)",
+            "DetailType": "AccountApproved",
+            "EventBusName": "eventbusname",
+            "Source": "com.aws.kyc"
+          }
+        ]
+      },
+      "End": true
+    },
+    "PutEvents_2": {
+      "Type": "Task",
+      "ResultPath": null,
+      "Resource": "arn:aws:states:::aws-sdk:eventbridge:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail.$": "States.JsonToString($.vars.result)",
+            "DetailType": "AccountDeclined",
+            "EventBusName": "eventbusname",
+            "Source": "com.aws.kyc"
+          }
+        ]
+      },
+      "End": true
+    }
+  }
+}

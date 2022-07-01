@@ -1,0 +1,34 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign arr"
+    },
+    "Assign arr": {
+      "Type": "Pass",
+      "InputPath": "$._undefined",
+      "ResultPath": "$.vars.arr",
+      "Comment": "source: arr: []",
+      "Next": "Assign two"
+    },
+    "Assign two": {
+      "Type": "Pass",
+      "InputPath": "$._undefined",
+      "ResultPath": "$.vars.two",
+      "Comment": "source: two: string",
+      "Next": "Return \"ok\""
+    },
+    "Return \"ok\"": {
+      "Type": "Pass",
+      "Result": "ok",
+      "End": true
+    }
+  }
+}

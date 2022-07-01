@@ -1,0 +1,55 @@
+{
+  "inputArgumentName": {
+    "identifier": "input",
+    "type": "object",
+    "_syntaxKind": "identifier"
+  },
+  "contextArgumentName": {
+    "identifier": "context",
+    "type": "object",
+    "_syntaxKind": "identifier"
+  },
+  "statements": [
+    {
+      "stateName": "Assign result",
+      "name": {
+        "identifier": "result",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "result: { action: \"approve\" | \"reject\" } = await asl.task({\n    name: \"Human Approval\",\n    resource: \"arn:aws:states:::lambda:invoke.waitForTaskToken\",\n    parameters: {\n      FunctionName: \"sendApprovalEmail\", // or asl.deploy.getLambdaName(sendApprovalEmail)\n      Payload: {\n        taskToken: context.task.token,\n        request: input,\n      },\n    },\n  })",
+      "expression": {
+        "stateName": "Human Approval",
+        "resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+        "parameters": {
+          "properties": {
+            "FunctionName": {
+              "value": "sendApprovalEmail",
+              "type": "string",
+              "_syntaxKind": "literal"
+            },
+            "Payload": {
+              "properties": {
+                "taskToken": {
+                  "identifier": "context.task.token",
+                  "type": "string",
+                  "_syntaxKind": "identifier"
+                },
+                "request": {
+                  "identifier": "input",
+                  "type": "object",
+                  "_syntaxKind": "identifier"
+                }
+              },
+              "_syntaxKind": "literal-object"
+            }
+          },
+          "_syntaxKind": "literal-object"
+        },
+        "_syntaxKind": "asl-task-state"
+      },
+      "_syntaxKind": "variable-assignment"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}

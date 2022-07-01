@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "noImplicitAny": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "outDir": "./lib",
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src",
+    "build/asl-lib-private.ts"
+  ],
+  "exclude": [
+    "lib",
+    "**/__tests__/*"
+  ]
+}

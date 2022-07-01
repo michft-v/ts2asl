@@ -1,0 +1,84 @@
+{
+  "StartAt": "Initialize",
+  "States": {
+    "Initialize": {
+      "Type": "Pass",
+      "ResultPath": "$",
+      "Parameters": {
+        "vars.$": "$$.Execution.Input",
+        "_undefined": null,
+        "_null": null
+      },
+      "Next": "Assign entries"
+    },
+    "Assign entries": {
+      "Type": "Task",
+      "ResultPath": "$.vars.entries",
+      "Resource": "[!lambda[getEntries]arn]",
+      "Comment": "source: getEntries()",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Map"
+    },
+    "Map": {
+      "Type": "Map",
+      "ResultPath": null,
+      "Iterator": {
+        "StartAt": "PutItem",
+        "States": {
+          "Empty Catch": {
+            "Type": "Pass",
+            "End": true
+          },
+          "PutItem": {
+            "Type": "Task",
+            "ResultPath": null,
+            "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
+            "Parameters": {
+              "Item": {
+                "pk": {
+                  "S": "pk"
+                },
+                "sk": {
+                  "S.$": "States.Format('sk#{}', $.vars.entry)"
+                },
+                "status": {
+                  "S": "available"
+                }
+              },
+              "ConditionExpression": "attribute_not_exists(:sk)",
+              "TableName": "[!parameter[tableName]]"
+            },
+            "Catch": [
+              {
+                "ErrorEquals": [
+                  "DynamoDb.ConditionalCheckFailedException"
+                ],
+                "ResultPath": null,
+                "Next": "Empty Catch"
+              }
+            ],
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.vars.entries",
+      "Parameters": {
+        "vars": {
+          "entry.$": "$$.Map.Item.Value"
+        }
+      },
+      "End": true
+    }
+  }
+}

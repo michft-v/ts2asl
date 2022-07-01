@@ -1,0 +1,213 @@
+{
+  "statements": [
+    {
+      "stateName": "Assign numbers",
+      "name": {
+        "identifier": "numbers",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "numbers = [0, 1, 2, 3]",
+      "expression": {
+        "elements": [
+          {
+            "value": 0,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 1,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 2,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": 3,
+            "type": "numeric",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign letters",
+      "name": {
+        "identifier": "letters",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "letters = [\"a\", \"b\", \"c\", \"d\"]",
+      "expression": {
+        "elements": [
+          {
+            "value": "a",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "b",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "c",
+            "type": "string",
+            "_syntaxKind": "literal"
+          },
+          {
+            "value": "d",
+            "type": "string",
+            "_syntaxKind": "literal"
+          }
+        ],
+        "_syntaxKind": "literal-array"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign global",
+      "name": {
+        "identifier": "global",
+        "type": "string",
+        "_syntaxKind": "identifier"
+      },
+      "source": "global = \"prefix\"",
+      "expression": {
+        "value": "prefix",
+        "type": "string",
+        "_syntaxKind": "literal"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "Assign outer",
+      "name": {
+        "identifier": "outer",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "source": "outer = { middle: { inner: 3 } }",
+      "expression": {
+        "properties": {
+          "middle": {
+            "properties": {
+              "inner": {
+                "value": 3,
+                "type": "numeric",
+                "_syntaxKind": "literal"
+              }
+            },
+            "_syntaxKind": "literal-object"
+          }
+        },
+        "_syntaxKind": "literal-object"
+      },
+      "_syntaxKind": "variable-assignment"
+    },
+    {
+      "stateName": "numbers.map => number",
+      "items": {
+        "identifier": "numbers",
+        "type": "object",
+        "_syntaxKind": "identifier"
+      },
+      "iterator": {
+        "inputArgumentName": {
+          "identifier": "number",
+          "type": "object",
+          "_syntaxKind": "identifier"
+        },
+        "statements": [
+          {
+            "stateName": "letters.map => letter",
+            "items": {
+              "identifier": "letters",
+              "type": "object",
+              "_syntaxKind": "identifier"
+            },
+            "iterator": {
+              "inputArgumentName": {
+                "identifier": "letter",
+                "type": "object",
+                "_syntaxKind": "identifier"
+              },
+              "statements": [
+                {
+                  "stateName": "Assign combined",
+                  "name": {
+                    "identifier": "combined",
+                    "type": "object",
+                    "_syntaxKind": "identifier"
+                  },
+                  "source": "combined = { number, letter, global, inner: outer.middle.inner }",
+                  "expression": {
+                    "properties": {
+                      "number": {
+                        "identifier": "number",
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
+                      },
+                      "letter": {
+                        "identifier": "letter",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      "global": {
+                        "identifier": "global",
+                        "type": "string",
+                        "_syntaxKind": "identifier"
+                      },
+                      "inner": {
+                        "identifier": "outer.middle.inner",
+                        "type": "numeric",
+                        "_syntaxKind": "identifier"
+                      }
+                    },
+                    "_syntaxKind": "literal-object"
+                  },
+                  "_syntaxKind": "variable-assignment"
+                },
+                {
+                  "stateName": "doSomething(combined)",
+                  "resource": "[!lambda[doSomething]arn]",
+                  "retry": [
+                    {
+                      "errorEquals": [
+                        "Lambda.ServiceException",
+                        "Lambda.AWSLambdaException",
+                        "Lambda.SdkClientException"
+                      ],
+                      "intervalSeconds": 2,
+                      "maxAttempts": 6,
+                      "backoffRate": 2
+                    }
+                  ],
+                  "parameters": {
+                    "identifier": "combined",
+                    "type": "object",
+                    "_syntaxKind": "identifier"
+                  },
+                  "source": "doSomething(combined)",
+                  "_syntaxKind": "asl-task-state"
+                }
+              ],
+              "_syntaxKind": "function"
+            },
+            "source": "letters.map(letter => {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      doSomething(combined);\n    })",
+            "_syntaxKind": "asl-map-state"
+          }
+        ],
+        "_syntaxKind": "function"
+      },
+      "source": "numbers.map(number => {\n    letters.map(letter => {\n      const combined = { number, letter, global, inner: outer.middle.inner };\n      doSomething(combined);\n    });\n  })",
+      "_syntaxKind": "asl-map-state"
+    }
+  ],
+  "_syntaxKind": "statemachine"
+}
